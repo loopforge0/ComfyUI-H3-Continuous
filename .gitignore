@@ -1,0 +1,4 @@
+# insightface buffalo_l weights for tools/face_drift.py -- 190 MB, fetched not vendored
+tools/face_models/
+__pycache__/
+*.pyc

@@ -1,0 +1,20 @@
+[project]
+name = "comfyui-h3-continuous"
+description = "Chain MiniMax H3 renders into one unbroken take: each segment opens on an exact replay of the last, pinned with AddGuide. Resumable, with a both-ends-pinned repair node."
+version = "1.0.0"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/loopforge0/ComfyUI-H3-Continuous"
+
+# Metadata for the ComfyUI registry (registry.comfy.org), which is what puts a pack in
+# ComfyUI Manager's node list. Publishing is optional and this pack is not there yet;
+# the block is filled in so `comfy node publish` works if that changes. PublisherId must
+# match the publisher you create on the registry before the first publish.
+[tool.comfy]
+PublisherId = "loopforge0"
+DisplayName = "H3 Continuous"
+Icon = ""
+requires-comfyui = ">=0.34.0"

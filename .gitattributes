@@ -1,0 +1,7 @@
+# Normalise line endings so a Windows checkout does not commit CRLF into a repo
+# that Linux and macOS users clone.
+* text=auto eol=lf
+
+*.png binary
+*.onnx binary
+*.safetensors binary
