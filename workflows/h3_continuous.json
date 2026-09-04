@@ -1,0 +1,2270 @@
+{
+  "id": "31ffbb1c-01c7-5e11-bc3e-e8f9fe832bbe",
+  "revision": 0,
+  "last_node_id": 27,
+  "last_link_id": 29,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "MarkdownNote",
+      "pos": [
+        -700.031409905044,
+        1024.0248301642962
+      ],
+      "size": [
+        570.6875,
+        548.015625
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Start here",
+      "properties": {},
+      "widgets_values": [
+        "# Stage song - the worked example\n\nThree shots, one unbroken take: a singer alone in a followspot performs a short\na cappella song and dances between the lines. Three 8-second renders joined with the\ndefault 1.625 s handoff make about 20.75 seconds of finished video.\n\n## Run it\n1. Put `kate.png` and `stage.png` in `ComfyUI/input/` (they are in this repo, under\n   `example_inputs/`), then Run. Nothing else needs setting.\n2. On a 12 GB card with the turbo LoRA on and `steps` at 4, budget about 27 minutes.\n\nEvery segment carries the same two references: `image_0` is the singer (`<Picture 1>`)\nand `image_1` is the stage (`<Picture 2>`). Feeding both into all three shots is what\nholds her face and the room together across the joins.\n\n## Read it\nPut segment 2's prompt next to segment 1's and the whole method is visible:\n\n- The **camera, lighting and subject blocks are repeated word for word** in all three.\n  That verbatim repetition, not the anchor, is what keeps the look identical.\n- Segments 2 and 3 **open by finishing a move already in progress** - the turn, then\n  the pivot - because their first 1.625 s is a fixed replay of the segment before. The\n  first sung word lands after the 1.7 s mark in both.\n- Each segment **sings, then dances, never both at once**, and ends on a beat with her\n  mouth closed. A dance move underneath a sung line freezes the mouth mid-word, and a\n  half-sung word cannot be resumed out of a replay.\n\n## Why there is no music\n`non_diegetic_music` is `N/A` in all three, and the stage's drum kit, keyboards and\nguitar are explicitly never played. Three independently generated score beds would not\nmatch across the joins - the key would move and the tempo would drift, making the two\nseams the most audible thing in the video. Score the finished cut in post instead,\nwhere it is one continuous track."
+      ],
+      "widgets_values_named": {
+        "text": "# Stage song - the worked example\n\nThree shots, one unbroken take: a singer alone in a followspot performs a short\na cappella song and dances between the lines. Three 8-second renders joined with the\ndefault 1.625 s handoff make about 20.75 seconds of finished video.\n\n## Run it\n1. Put `kate.png` and `stage.png` in `ComfyUI/input/` (they are in this repo, under\n   `example_inputs/`), then Run. Nothing else needs setting.\n2. On a 12 GB card with the turbo LoRA on and `steps` at 4, budget about 27 minutes.\n\nEvery segment carries the same two references: `image_0` is the singer (`<Picture 1>`)\nand `image_1` is the stage (`<Picture 2>`). Feeding both into all three shots is what\nholds her face and the room together across the joins.\n\n## Read it\nPut segment 2's prompt next to segment 1's and the whole method is visible:\n\n- The **camera, lighting and subject blocks are repeated word for word** in all three.\n  That verbatim repetition, not the anchor, is what keeps the look identical.\n- Segments 2 and 3 **open by finishing a move already in progress** - the turn, then\n  the pivot - because their first 1.625 s is a fixed replay of the segment before. The\n  first sung word lands after the 1.7 s mark in both.\n- Each segment **sings, then dances, never both at once**, and ends on a beat with her\n  mouth closed. A dance move underneath a sung line freezes the mouth mid-word, and a\n  half-sung word cannot be resumed out of a replay.\n\n## Why there is no music\n`non_diegetic_music` is `N/A` in all three, and the stage's drum kit, keyboards and\nguitar are explicitly never played. Three independently generated score beds would not\nmatch across the joins - the key would move and the tempo would drift, making the two\nseams the most audible thing in the video. Score the finished cut in post instead,\nwhere it is one continuous track."
+      },
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 2,
+      "type": "UNETLoader",
+      "pos": [
+        40,
+        120
+      ],
+      "size": [
+        400,
+        100
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "unet_name",
+          "name": "unet_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "unet_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "weight_dtype",
+          "name": "weight_dtype",
+          "type": "COMBO",
+          "widget": {
+            "name": "weight_dtype"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "MODEL",
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            1,
+            2
+          ]
+        }
+      ],
+      "title": "H3 ref2va model",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.34.0",
+        "Node name for S&R": "UNETLoader",
+        "models": [
+          {
+            "name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+            "directory": "diffusion_models"
+          }
+        ]
+      },
+      "widgets_values": [
+        "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+        "default"
+      ],
+      "widgets_values_named": {
+        "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+        "weight_dtype": "default"
+      }
+    },
+    {
+      "id": 3,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        40,
+        270
+      ],
+      "size": [
+        400,
+        100
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 4,
+      "inputs": [
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        },
+        {
+          "localized_name": "lora_name",
+          "name": "lora_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "lora_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "strength_model",
+          "name": "strength_model",
+          "type": "FLOAT",
+          "widget": {
+            "name": "strength_model"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "MODEL",
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            3
+          ]
+        }
+      ],
+      "title": "Turbo LoRA (bypassed - Ctrl+B to enable)",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.34.0",
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "models": [
+          {
+            "name": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/loras/minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+            "directory": "loras"
+          }
+        ]
+      },
+      "widgets_values": [
+        "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+        1
+      ],
+      "widgets_values_named": {
+        "lora_name": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+        "strength_model": 1
+      },
+      "color": "#535",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 4,
+      "type": "CLIPLoader",
+      "pos": [
+        40,
+        420
+      ],
+      "size": [
+        400,
+        114
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "clip_name",
+          "name": "clip_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "clip_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "type",
+          "name": "type",
+          "type": "COMBO",
+          "widget": {
+            "name": "type"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "device",
+          "name": "device",
+          "shape": 7,
+          "type": "COMBO",
+          "widget": {
+            "name": "device"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "CLIP",
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            4
+          ]
+        }
+      ],
+      "title": "Qwen3-VL text encoder",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.34.0",
+        "Node name for S&R": "CLIPLoader",
+        "models": [
+          {
+            "name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+            "directory": "text_encoders"
+          }
+        ]
+      },
+      "widgets_values": [
+        "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "minimax",
+        "default"
+      ],
+      "widgets_values_named": {
+        "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "type": "minimax",
+        "device": "default"
+      }
+    },
+    {
+      "id": 5,
+      "type": "VAELoader",
+      "pos": [
+        40,
+        580
+      ],
+      "size": [
+        400,
+        70
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "vae_name",
+          "name": "vae_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "vae_name"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "VAE",
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            5
+          ]
+        }
+      ],
+      "title": "Video VAE",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.34.0",
+        "Node name for S&R": "VAELoader",
+        "models": [
+          {
+            "name": "minimax_h3_video_vae_fp16.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/vae/minimax_h3_video_vae_fp16.safetensors",
+            "directory": "vae"
+          }
+        ]
+      },
+      "widgets_values": [
+        "minimax_h3_video_vae_fp16.safetensors"
+      ],
+      "widgets_values_named": {
+        "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+      }
+    },
+    {
+      "id": 6,
+      "type": "VAELoader",
+      "pos": [
+        40,
+        698.2495422922868
+      ],
+      "size": [
+        400,
+        70
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "vae_name",
+          "name": "vae_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "vae_name"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "VAE",
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            6
+          ]
+        }
+      ],
+      "title": "Audio VAE",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.34.0",
+        "Node name for S&R": "VAELoader",
+        "models": [
+          {
+            "name": "minimax_h3_audio_vae_fp32.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/vae/minimax_h3_audio_vae_fp32.safetensors",
+            "directory": "vae"
+          }
+        ]
+      },
+      "widgets_values": [
+        "minimax_h3_audio_vae_fp32.safetensors"
+      ],
+      "widgets_values_named": {
+        "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+      }
+    },
+    {
+      "id": 7,
+      "type": "KSamplerSelect",
+      "pos": [
+        40,
+        809.428048334042
+      ],
+      "size": [
+        400,
+        70
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "sampler_name",
+          "name": "sampler_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "sampler_name"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "SAMPLER",
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            7
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.34.0",
+        "Node name for S&R": "KSamplerSelect"
+      },
+      "widgets_values": [
+        "res_multistep"
+      ],
+      "widgets_values_named": {
+        "sampler_name": "res_multistep"
+      }
+    },
+    {
+      "id": 8,
+      "type": "BasicScheduler",
+      "pos": [
+        41.77085806424532,
+        929.4794387066984
+      ],
+      "size": [
+        400,
+        130
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "MODEL",
+          "link": 2
+        },
+        {
+          "localized_name": "scheduler",
+          "name": "scheduler",
+          "type": "COMBO",
+          "widget": {
+            "name": "scheduler"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "steps",
+          "name": "steps",
+          "type": "INT",
+          "widget": {
+            "name": "steps"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "denoise",
+          "name": "denoise",
+          "type": "FLOAT",
+          "widget": {
+            "name": "denoise"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "SIGMAS",
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            8
+          ]
+        }
+      ],
+      "title": "Steps (20 full quality / 4 with the turbo LoRA)",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.34.0",
+        "Node name for S&R": "BasicScheduler"
+      },
+      "widgets_values": [
+        "simple",
+        20,
+        1
+      ],
+      "widgets_values_named": {
+        "scheduler": "simple",
+        "steps": 20,
+        "denoise": 1
+      }
+    },
+    {
+      "id": 9,
+      "type": "H3ChainSettings",
+      "pos": [
+        520,
+        120
+      ],
+      "size": [
+        400,
+        440
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "MODEL",
+          "link": 3
+        },
+        {
+          "localized_name": "clip",
+          "name": "clip",
+          "type": "CLIP",
+          "link": 4
+        },
+        {
+          "localized_name": "vae",
+          "name": "vae",
+          "type": "VAE",
+          "link": 5
+        },
+        {
+          "localized_name": "audio_vae",
+          "name": "audio_vae",
+          "type": "VAE",
+          "link": 6
+        },
+        {
+          "localized_name": "sampler",
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 7
+        },
+        {
+          "localized_name": "sigmas",
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 8
+        },
+        {
+          "localized_name": "width",
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 9
+        },
+        {
+          "localized_name": "height",
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 10
+        },
+        {
+          "localized_name": "chain_seed",
+          "name": "chain_seed",
+          "type": "INT",
+          "widget": {
+            "name": "chain_seed"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "session_name",
+          "name": "session_name",
+          "type": "STRING",
+          "widget": {
+            "name": "session_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "ref_image_size",
+          "name": "ref_image_size",
+          "type": "COMBO",
+          "widget": {
+            "name": "ref_image_size"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "handoff_mode",
+          "name": "handoff_mode",
+          "type": "COMBO",
+          "widget": {
+            "name": "handoff_mode"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "drift_arrest",
+          "name": "drift_arrest",
+          "type": "FLOAT",
+          "widget": {
+            "name": "drift_arrest"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "settings",
+          "name": "settings",
+          "type": "H3_SETTINGS",
+          "links": [
+            11,
+            14,
+            18,
+            29
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "H3ChainSettings"
+      },
+      "widgets_values": [
+        480,
+        864,
+        12345,
+        "stage_song",
+        "match",
+        "latent",
+        0
+      ],
+      "widgets_values_named": {
+        "width": 480,
+        "height": 864,
+        "chain_seed": 12345,
+        "session_name": "stage_song",
+        "ref_image_size": "match",
+        "handoff_mode": "latent",
+        "drift_arrest": 0
+      },
+      "color": "#3f5159",
+      "bgcolor": "#3f5159"
+    },
+    {
+      "id": 10,
+      "type": "ResolutionSelector",
+      "pos": [
+        520,
+        627.2698452888278
+      ],
+      "size": [
+        400,
+        150
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "aspect_ratio",
+          "name": "aspect_ratio",
+          "type": "COMBO",
+          "widget": {
+            "name": "aspect_ratio"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "megapixels",
+          "name": "megapixels",
+          "type": "FLOAT",
+          "widget": {
+            "name": "megapixels"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "multiple",
+          "name": "multiple",
+          "type": "INT",
+          "widget": {
+            "name": "multiple"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "width",
+          "name": "width",
+          "type": "INT",
+          "links": [
+            9
+          ]
+        },
+        {
+          "localized_name": "height",
+          "name": "height",
+          "type": "INT",
+          "links": [
+            10
+          ]
+        }
+      ],
+      "title": "Canvas resolution -> Settings width/height",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.34.0",
+        "Node name for S&R": "ResolutionSelector"
+      },
+      "widgets_values": [
+        "9:16 (Portrait Widescreen)",
+        0.415,
+        32
+      ],
+      "widgets_values_named": {
+        "aspect_ratio": "9:16 (Portrait Widescreen)",
+        "megapixels": 0.415,
+        "multiple": 32
+      },
+      "color": "#3f5159",
+      "bgcolor": "#3f5159"
+    },
+    {
+      "id": 11,
+      "type": "MarkdownNote",
+      "pos": [
+        1560,
+        -520
+      ],
+      "size": [
+        420,
+        420
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Shots",
+      "properties": {},
+      "widgets_values": [
+        "## Your shots\n\nOne **H3 Render Segment** per shot, wired top to bottom: each node's `chain_state`\noutput goes into the next one's `chain_state` input. The first segment's `chain_state`\ninput stays unconnected -- that is the one that reads `session_name` off **H3 Chain\nSettings**; every segment after it inherits the session through the wire instead.\n\n- `seconds` - length of this shot (8 s = 192 frames).\n- `handoff_seconds` *(advanced)* - how much of **this** shot's ending the **next** one\n  opens on. 1.625 s is the sweet spot. Set to 0 on the last shot of the take.\n- `seed_override` *(advanced)* - leave at 0 to derive it from the chain seed; set it to\n  re-roll just this shot.\n\nReference images are numbered by socket: `image_0` is `<Picture 1>`, `image_1` is\n`<Picture 2>`. One loader can feed several segments - that is how a character stays the\nsame person all the way through.\n\nNeed more shots? Drag in another H3 Render Segment and wire it into the chain. Need\nfewer? Delete one and reconnect the `chain_state` wire around it."
+      ],
+      "widgets_values_named": {
+        "text": "## Your shots\n\nOne **H3 Render Segment** per shot, wired top to bottom: each node's `chain_state`\noutput goes into the next one's `chain_state` input. The first segment's `chain_state`\ninput stays unconnected -- that is the one that reads `session_name` off **H3 Chain\nSettings**; every segment after it inherits the session through the wire instead.\n\n- `seconds` - length of this shot (8 s = 192 frames).\n- `handoff_seconds` *(advanced)* - how much of **this** shot's ending the **next** one\n  opens on. 1.625 s is the sweet spot. Set to 0 on the last shot of the take.\n- `seed_override` *(advanced)* - leave at 0 to derive it from the chain seed; set it to\n  re-roll just this shot.\n\nReference images are numbered by socket: `image_0` is `<Picture 1>`, `image_1` is\n`<Picture 2>`. One loader can feed several segments - that is how a character stays the\nsame person all the way through.\n\nNeed more shots? Drag in another H3 Render Segment and wire it into the chain. Need\nfewer? Delete one and reconnect the `chain_state` wire around it."
+      },
+      "color": "#535",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 12,
+      "type": "H3RenderSegment",
+      "pos": [
+        1560,
+        80.41971781798344
+      ],
+      "size": [
+        420,
+        660
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "settings",
+          "name": "settings",
+          "type": "H3_SETTINGS",
+          "link": 11
+        },
+        {
+          "localized_name": "chain_state",
+          "name": "chain_state",
+          "shape": 7,
+          "type": "H3_CHAIN",
+          "link": null
+        },
+        {
+          "label": "image_0",
+          "localized_name": "image_0",
+          "name": "images.image_0",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 12
+        },
+        {
+          "localized_name": "image_1",
+          "name": "images.image_1",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 13
+        },
+        {
+          "localized_name": "image_2",
+          "name": "images.image_2",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "label": "video_0",
+          "localized_name": "video_0",
+          "name": "videos.video_0",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "label": "video_audio_0",
+          "localized_name": "video_audio_0",
+          "name": "video_audios.video_audio_0",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": null
+        },
+        {
+          "label": "audio_0",
+          "localized_name": "audio_0",
+          "name": "audios.audio_0",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": null
+        },
+        {
+          "localized_name": "resume",
+          "name": "resume",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "resume"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "prompt",
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "seconds",
+          "name": "seconds",
+          "type": "FLOAT",
+          "widget": {
+            "name": "seconds"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "handoff_seconds",
+          "name": "handoff_seconds",
+          "type": "FLOAT",
+          "widget": {
+            "name": "handoff_seconds"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "seed_override",
+          "name": "seed_override",
+          "type": "INT",
+          "widget": {
+            "name": "seed_override"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "unload_models_after",
+          "name": "unload_models_after",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "unload_models_after"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "video",
+          "name": "video",
+          "type": "VIDEO",
+          "links": null
+        },
+        {
+          "localized_name": "chain_state",
+          "name": "chain_state",
+          "type": "H3_CHAIN",
+          "links": [
+            15
+          ]
+        },
+        {
+          "localized_name": "summary",
+          "name": "summary",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "title": "Segment 1",
+      "properties": {
+        "Node name for S&R": "H3RenderSegment"
+      },
+      "widgets_values": [
+        true,
+        "subject_definitions:\n<Subject 1> is the young woman in <Picture 1>, in her early twenties, with shoulder-length wavy mid-brown hair worn loose with soft lilac-purple tones running through the mid-lengths and ends, fair clear skin, blue-grey eyes, dark natural brows and a slim build, wearing a chunky oatmeal-and-brown waffle-knit crew-neck sweater and dark slim jeans. Only her face, hair, colouring and sweater are taken from <Picture 1>; the calm closed-mouth half-smile and the still seated portrait pose in that image are not retained, because she is singing and dancing throughout the target video.\n<Subject 2> is the theatre stage in <Picture 2>: a full-width deep red velvet curtain hanging in heavy vertical folds across the back, a glossy honey-coloured wooden floor, a single warm amber followspot throwing a visible cone of light straight down onto centre stage and a dappled gobo pattern across the boards around it, a chrome vocal microphone on a black straight stand at centre, a drum kit on a low riser upstage behind the microphone, a two-tier keyboard rig and stool stage-left, a black monitor wedge and a small warm practical lamp stage-right, and an electric guitar on a stand at the far stage-right edge. Only the layout, shapes, materials, colours and lighting of that image are used. No musicians are present, and the drum kit, keyboards and guitar are never touched or played.\n\nsummary:\n[reference generation] <Subject 1> stands alone in the followspot at the centre microphone of the empty stage <Subject 2>, sings the opening line of an unaccompanied song, then steps back off the microphone and opens into the first move of a slow dance.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - her face, blue-grey eyes, shoulder-length wavy mid-brown hair with its lilac-purple tones and her chunky oatmeal waffle-knit sweater are retained exactly; the calm still portrait pose of <Picture 1> is not retained.\n<Subject 2> (appears in [Shot 1]): partially_preserved - the red velvet curtain, honey wooden floor, amber followspot and gobo dapple, centre microphone stand, drum riser, keyboard rig, monitor wedge and guitar stand are retained in the same layout; the empty framing of <Picture 2> is not retained, because <Subject 1> is performing in the light.\n\ndetailed_description:\nThe target video is photorealistic live-action concert footage shot vertically, filmed on a single locked-off camera at chest height about four metres back from centre stage, lit only by the warm amber followspot against the deep red curtain with the rest of the stage falling away into shadow, with a shallow depth of field so the drum kit and the curtain behind her are softly blurred, and with no on-screen text and no subtitles anywhere.\n[Shot 1] The camera is locked off and holds the same full-length wide shot for the whole segment with no cut, her whole body inside the cone of light with headroom above her and the dappled stage floor visible below her feet, never panning, zooming, cutting or changing its distance. She sings unaccompanied in a clear, warm young female voice at a relaxed mid-tempo, her jaw and lips opening and closing distinctly on every syllable so every word of the lyric is clearly formed, and she never settles into a fixed open smile or a laugh that would freeze her mouth. While she is singing her body stays quiet and she moves only her head, shoulders and one hand; every full dance move lands in the gap between sung lines rather than underneath one. She sings exactly the words given below and no others: she does not ad-lib, does not repeat herself, does not hum and does not add any further vocal to fill out the shot. The shot opens on her already standing at the chrome microphone at centre stage inside the cone of amber light, feet together, her right hand resting lightly on the top of the black stand and her left hand at her side, looking straight down the lens. She draws a breath and sings the opening line, her body still and only her shoulders lifting with the phrase, <d>[English] I have been waiting on the light to find me.</d> She closes her mouth on the last word. Only then does she move: she lets go of the microphone stand, takes one unhurried step back and to her right along the boards, and begins a slow half-turn away from the lens with both arms drifting up and out to shoulder height, her hair swinging out behind her. The segment ends mid-turn, her body angled away, arms still raised, her mouth closed and singing nothing.\n\noverall_soundscape:\nA large empty theatre's room tone with a long natural reverb tail off the wooden stage and the back wall, her unaccompanied voice carrying out into that space, with the soft scuff and tap of her shoes on the boards and the faint rustle of her sweater as she moves. No instruments are played, there is no audience and there is no other sound.\n\nnon_diegetic_music:\nN/A",
+        8,
+        1.625,
+        0,
+        false
+      ],
+      "widgets_values_named": {
+        "resume": true,
+        "prompt": "subject_definitions:\n<Subject 1> is the young woman in <Picture 1>, in her early twenties, with shoulder-length wavy mid-brown hair worn loose with soft lilac-purple tones running through the mid-lengths and ends, fair clear skin, blue-grey eyes, dark natural brows and a slim build, wearing a chunky oatmeal-and-brown waffle-knit crew-neck sweater and dark slim jeans. Only her face, hair, colouring and sweater are taken from <Picture 1>; the calm closed-mouth half-smile and the still seated portrait pose in that image are not retained, because she is singing and dancing throughout the target video.\n<Subject 2> is the theatre stage in <Picture 2>: a full-width deep red velvet curtain hanging in heavy vertical folds across the back, a glossy honey-coloured wooden floor, a single warm amber followspot throwing a visible cone of light straight down onto centre stage and a dappled gobo pattern across the boards around it, a chrome vocal microphone on a black straight stand at centre, a drum kit on a low riser upstage behind the microphone, a two-tier keyboard rig and stool stage-left, a black monitor wedge and a small warm practical lamp stage-right, and an electric guitar on a stand at the far stage-right edge. Only the layout, shapes, materials, colours and lighting of that image are used. No musicians are present, and the drum kit, keyboards and guitar are never touched or played.\n\nsummary:\n[reference generation] <Subject 1> stands alone in the followspot at the centre microphone of the empty stage <Subject 2>, sings the opening line of an unaccompanied song, then steps back off the microphone and opens into the first move of a slow dance.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - her face, blue-grey eyes, shoulder-length wavy mid-brown hair with its lilac-purple tones and her chunky oatmeal waffle-knit sweater are retained exactly; the calm still portrait pose of <Picture 1> is not retained.\n<Subject 2> (appears in [Shot 1]): partially_preserved - the red velvet curtain, honey wooden floor, amber followspot and gobo dapple, centre microphone stand, drum riser, keyboard rig, monitor wedge and guitar stand are retained in the same layout; the empty framing of <Picture 2> is not retained, because <Subject 1> is performing in the light.\n\ndetailed_description:\nThe target video is photorealistic live-action concert footage shot vertically, filmed on a single locked-off camera at chest height about four metres back from centre stage, lit only by the warm amber followspot against the deep red curtain with the rest of the stage falling away into shadow, with a shallow depth of field so the drum kit and the curtain behind her are softly blurred, and with no on-screen text and no subtitles anywhere.\n[Shot 1] The camera is locked off and holds the same full-length wide shot for the whole segment with no cut, her whole body inside the cone of light with headroom above her and the dappled stage floor visible below her feet, never panning, zooming, cutting or changing its distance. She sings unaccompanied in a clear, warm young female voice at a relaxed mid-tempo, her jaw and lips opening and closing distinctly on every syllable so every word of the lyric is clearly formed, and she never settles into a fixed open smile or a laugh that would freeze her mouth. While she is singing her body stays quiet and she moves only her head, shoulders and one hand; every full dance move lands in the gap between sung lines rather than underneath one. She sings exactly the words given below and no others: she does not ad-lib, does not repeat herself, does not hum and does not add any further vocal to fill out the shot. The shot opens on her already standing at the chrome microphone at centre stage inside the cone of amber light, feet together, her right hand resting lightly on the top of the black stand and her left hand at her side, looking straight down the lens. She draws a breath and sings the opening line, her body still and only her shoulders lifting with the phrase, <d>[English] I have been waiting on the light to find me.</d> She closes her mouth on the last word. Only then does she move: she lets go of the microphone stand, takes one unhurried step back and to her right along the boards, and begins a slow half-turn away from the lens with both arms drifting up and out to shoulder height, her hair swinging out behind her. The segment ends mid-turn, her body angled away, arms still raised, her mouth closed and singing nothing.\n\noverall_soundscape:\nA large empty theatre's room tone with a long natural reverb tail off the wooden stage and the back wall, her unaccompanied voice carrying out into that space, with the soft scuff and tap of her shoes on the boards and the faint rustle of her sweater as she moves. No instruments are played, there is no audience and there is no other sound.\n\nnon_diegetic_music:\nN/A",
+        "seconds": 8,
+        "handoff_seconds": 1.625,
+        "seed_override": 0,
+        "unload_models_after": false
+      },
+      "color": "#535",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 13,
+      "type": "LoadImage",
+      "pos": [
+        1100,
+        80.41971781798344
+      ],
+      "size": [
+        320,
+        322
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "choose file to upload",
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            12,
+            16,
+            20
+          ]
+        },
+        {
+          "localized_name": "MASK",
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "<Picture 1>",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.34.0",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "kate.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "kate.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 14,
+      "type": "LoadImage",
+      "pos": [
+        1102.2965748760219,
+        460.7147076028605
+      ],
+      "size": [
+        320,
+        322
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "choose file to upload",
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            13,
+            17,
+            21
+          ]
+        },
+        {
+          "localized_name": "MASK",
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "<Picture 2>",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.34.0",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "stage.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "stage.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 15,
+      "type": "H3RenderSegment",
+      "pos": [
+        2040,
+        80.41971781798344
+      ],
+      "size": [
+        420,
+        660
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "settings",
+          "name": "settings",
+          "type": "H3_SETTINGS",
+          "link": 14
+        },
+        {
+          "localized_name": "chain_state",
+          "name": "chain_state",
+          "shape": 7,
+          "type": "H3_CHAIN",
+          "link": 15
+        },
+        {
+          "label": "image_0",
+          "localized_name": "image_0",
+          "name": "images.image_0",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 16
+        },
+        {
+          "localized_name": "image_1",
+          "name": "images.image_1",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 17
+        },
+        {
+          "localized_name": "image_2",
+          "name": "images.image_2",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "label": "video_0",
+          "localized_name": "video_0",
+          "name": "videos.video_0",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "label": "video_audio_0",
+          "localized_name": "video_audio_0",
+          "name": "video_audios.video_audio_0",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": null
+        },
+        {
+          "label": "audio_0",
+          "localized_name": "audio_0",
+          "name": "audios.audio_0",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": null
+        },
+        {
+          "localized_name": "resume",
+          "name": "resume",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "resume"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "prompt",
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "seconds",
+          "name": "seconds",
+          "type": "FLOAT",
+          "widget": {
+            "name": "seconds"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "handoff_seconds",
+          "name": "handoff_seconds",
+          "type": "FLOAT",
+          "widget": {
+            "name": "handoff_seconds"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "seed_override",
+          "name": "seed_override",
+          "type": "INT",
+          "widget": {
+            "name": "seed_override"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "unload_models_after",
+          "name": "unload_models_after",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "unload_models_after"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "video",
+          "name": "video",
+          "type": "VIDEO",
+          "links": null
+        },
+        {
+          "localized_name": "chain_state",
+          "name": "chain_state",
+          "type": "H3_CHAIN",
+          "links": [
+            19
+          ]
+        },
+        {
+          "localized_name": "summary",
+          "name": "summary",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "title": "Segment 2",
+      "properties": {
+        "Node name for S&R": "H3RenderSegment"
+      },
+      "widgets_values": [
+        true,
+        "subject_definitions:\n<Subject 1> is the young woman in <Picture 1>, in her early twenties, with shoulder-length wavy mid-brown hair worn loose with soft lilac-purple tones running through the mid-lengths and ends, fair clear skin, blue-grey eyes, dark natural brows and a slim build, wearing a chunky oatmeal-and-brown waffle-knit crew-neck sweater and dark slim jeans. Only her face, hair, colouring and sweater are taken from <Picture 1>; the calm closed-mouth half-smile and the still seated portrait pose in that image are not retained, because she is singing and dancing throughout the target video.\n<Subject 2> is the theatre stage in <Picture 2>: a full-width deep red velvet curtain hanging in heavy vertical folds across the back, a glossy honey-coloured wooden floor, a single warm amber followspot throwing a visible cone of light straight down onto centre stage and a dappled gobo pattern across the boards around it, a chrome vocal microphone on a black straight stand at centre, a drum kit on a low riser upstage behind the microphone, a two-tier keyboard rig and stool stage-left, a black monitor wedge and a small warm practical lamp stage-right, and an electric guitar on a stand at the far stage-right edge. Only the layout, shapes, materials, colours and lighting of that image are used. No musicians are present, and the drum kit, keyboards and guitar are never touched or played.\n\nsummary:\n[reference generation] <Subject 1> comes out of the turn she is already in, sings the second line of the unaccompanied song, then travels across the followspot on the empty stage <Subject 2> in a short step sequence.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - her face, blue-grey eyes, shoulder-length wavy mid-brown hair with its lilac-purple tones and her chunky oatmeal waffle-knit sweater are retained exactly; the calm still portrait pose of <Picture 1> is not retained.\n<Subject 2> (appears in [Shot 1]): partially_preserved - the red velvet curtain, honey wooden floor, amber followspot and gobo dapple, centre microphone stand, drum riser, keyboard rig, monitor wedge and guitar stand are retained in the same layout; the empty framing of <Picture 2> is not retained, because <Subject 1> is performing in the light.\n\ndetailed_description:\nThe target video is photorealistic live-action concert footage shot vertically, filmed on a single locked-off camera at chest height about four metres back from centre stage, lit only by the warm amber followspot against the deep red curtain with the rest of the stage falling away into shadow, with a shallow depth of field so the drum kit and the curtain behind her are softly blurred, and with no on-screen text and no subtitles anywhere.\n[Shot 1] The segment opens on an exact replay of the closing moments of the preceding take and carries that motion straight through, so the join is invisible. She holds the exact body pose, head angle, gaze direction, arm position and facial expression carried in by the replayed opening and continues out of it without any reset or restart, and no new action begins before the 1.7-second mark. The camera is locked off and holds the same full-length wide shot for the whole segment with no cut, her whole body inside the cone of light with headroom above her and the dappled stage floor visible below her feet, never panning, zooming, cutting or changing its distance. She sings unaccompanied in a clear, warm young female voice at a relaxed mid-tempo, her jaw and lips opening and closing distinctly on every syllable so every word of the lyric is clearly formed, and she never settles into a fixed open smile or a laugh that would freeze her mouth. While she is singing her body stays quiet and she moves only her head, shoulders and one hand; every full dance move lands in the gap between sung lines rather than underneath one. She sings exactly the words given below and no others: she does not ad-lib, does not repeat herself, does not hum and does not add any further vocal to fill out the shot. She completes the slow half-turn she is already in, bringing her face back round to the lens and letting both raised arms fall softly to her sides as she comes square again, a little to the right of the microphone stand. Settled and facing front, she sings the second line, her body quiet and only her chin lifting into it, <d>[English] and here it is, warm on my hands tonight.</d> She closes her mouth, and on the silence she turns her palms up in front of her and dances: two smooth travelling steps to her left back across the cone of light, a low sweep of both arms out and down that follows the step, and a quick clean pivot on the ball of her left foot that brings her round to face the lens again. The segment ends just out of the pivot, her weight settling onto her right foot, arms low and open, her mouth closed and singing nothing.\n\noverall_soundscape:\nThe large empty theatre's room tone carries straight on from the preceding segment without interruption: the same long natural reverb tail off the wooden stage and the back wall, her unaccompanied voice carrying out into that space, with the soft scuff and tap of her shoes on the boards and the faint rustle of her sweater as she moves. No instruments are played, there is no audience and there is no other sound.\n\nnon_diegetic_music:\nN/A",
+        8,
+        1.625,
+        0,
+        false
+      ],
+      "widgets_values_named": {
+        "resume": true,
+        "prompt": "subject_definitions:\n<Subject 1> is the young woman in <Picture 1>, in her early twenties, with shoulder-length wavy mid-brown hair worn loose with soft lilac-purple tones running through the mid-lengths and ends, fair clear skin, blue-grey eyes, dark natural brows and a slim build, wearing a chunky oatmeal-and-brown waffle-knit crew-neck sweater and dark slim jeans. Only her face, hair, colouring and sweater are taken from <Picture 1>; the calm closed-mouth half-smile and the still seated portrait pose in that image are not retained, because she is singing and dancing throughout the target video.\n<Subject 2> is the theatre stage in <Picture 2>: a full-width deep red velvet curtain hanging in heavy vertical folds across the back, a glossy honey-coloured wooden floor, a single warm amber followspot throwing a visible cone of light straight down onto centre stage and a dappled gobo pattern across the boards around it, a chrome vocal microphone on a black straight stand at centre, a drum kit on a low riser upstage behind the microphone, a two-tier keyboard rig and stool stage-left, a black monitor wedge and a small warm practical lamp stage-right, and an electric guitar on a stand at the far stage-right edge. Only the layout, shapes, materials, colours and lighting of that image are used. No musicians are present, and the drum kit, keyboards and guitar are never touched or played.\n\nsummary:\n[reference generation] <Subject 1> comes out of the turn she is already in, sings the second line of the unaccompanied song, then travels across the followspot on the empty stage <Subject 2> in a short step sequence.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - her face, blue-grey eyes, shoulder-length wavy mid-brown hair with its lilac-purple tones and her chunky oatmeal waffle-knit sweater are retained exactly; the calm still portrait pose of <Picture 1> is not retained.\n<Subject 2> (appears in [Shot 1]): partially_preserved - the red velvet curtain, honey wooden floor, amber followspot and gobo dapple, centre microphone stand, drum riser, keyboard rig, monitor wedge and guitar stand are retained in the same layout; the empty framing of <Picture 2> is not retained, because <Subject 1> is performing in the light.\n\ndetailed_description:\nThe target video is photorealistic live-action concert footage shot vertically, filmed on a single locked-off camera at chest height about four metres back from centre stage, lit only by the warm amber followspot against the deep red curtain with the rest of the stage falling away into shadow, with a shallow depth of field so the drum kit and the curtain behind her are softly blurred, and with no on-screen text and no subtitles anywhere.\n[Shot 1] The segment opens on an exact replay of the closing moments of the preceding take and carries that motion straight through, so the join is invisible. She holds the exact body pose, head angle, gaze direction, arm position and facial expression carried in by the replayed opening and continues out of it without any reset or restart, and no new action begins before the 1.7-second mark. The camera is locked off and holds the same full-length wide shot for the whole segment with no cut, her whole body inside the cone of light with headroom above her and the dappled stage floor visible below her feet, never panning, zooming, cutting or changing its distance. She sings unaccompanied in a clear, warm young female voice at a relaxed mid-tempo, her jaw and lips opening and closing distinctly on every syllable so every word of the lyric is clearly formed, and she never settles into a fixed open smile or a laugh that would freeze her mouth. While she is singing her body stays quiet and she moves only her head, shoulders and one hand; every full dance move lands in the gap between sung lines rather than underneath one. She sings exactly the words given below and no others: she does not ad-lib, does not repeat herself, does not hum and does not add any further vocal to fill out the shot. She completes the slow half-turn she is already in, bringing her face back round to the lens and letting both raised arms fall softly to her sides as she comes square again, a little to the right of the microphone stand. Settled and facing front, she sings the second line, her body quiet and only her chin lifting into it, <d>[English] and here it is, warm on my hands tonight.</d> She closes her mouth, and on the silence she turns her palms up in front of her and dances: two smooth travelling steps to her left back across the cone of light, a low sweep of both arms out and down that follows the step, and a quick clean pivot on the ball of her left foot that brings her round to face the lens again. The segment ends just out of the pivot, her weight settling onto her right foot, arms low and open, her mouth closed and singing nothing.\n\noverall_soundscape:\nThe large empty theatre's room tone carries straight on from the preceding segment without interruption: the same long natural reverb tail off the wooden stage and the back wall, her unaccompanied voice carrying out into that space, with the soft scuff and tap of her shoes on the boards and the faint rustle of her sweater as she moves. No instruments are played, there is no audience and there is no other sound.\n\nnon_diegetic_music:\nN/A",
+        "seconds": 8,
+        "handoff_seconds": 1.625,
+        "seed_override": 0,
+        "unload_models_after": false
+      },
+      "color": "#535",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 16,
+      "type": "H3RenderSegment",
+      "pos": [
+        2521.7800672424996,
+        84.70519433345709
+      ],
+      "size": [
+        420,
+        660
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "settings",
+          "name": "settings",
+          "type": "H3_SETTINGS",
+          "link": 18
+        },
+        {
+          "localized_name": "chain_state",
+          "name": "chain_state",
+          "shape": 7,
+          "type": "H3_CHAIN",
+          "link": 19
+        },
+        {
+          "label": "image_0",
+          "localized_name": "image_0",
+          "name": "images.image_0",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 20
+        },
+        {
+          "localized_name": "image_1",
+          "name": "images.image_1",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 21
+        },
+        {
+          "localized_name": "image_2",
+          "name": "images.image_2",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "label": "video_0",
+          "localized_name": "video_0",
+          "name": "videos.video_0",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "label": "video_audio_0",
+          "localized_name": "video_audio_0",
+          "name": "video_audios.video_audio_0",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": null
+        },
+        {
+          "label": "audio_0",
+          "localized_name": "audio_0",
+          "name": "audios.audio_0",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": null
+        },
+        {
+          "localized_name": "resume",
+          "name": "resume",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "resume"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "prompt",
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "seconds",
+          "name": "seconds",
+          "type": "FLOAT",
+          "widget": {
+            "name": "seconds"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "handoff_seconds",
+          "name": "handoff_seconds",
+          "type": "FLOAT",
+          "widget": {
+            "name": "handoff_seconds"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "seed_override",
+          "name": "seed_override",
+          "type": "INT",
+          "widget": {
+            "name": "seed_override"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "unload_models_after",
+          "name": "unload_models_after",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "unload_models_after"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "video",
+          "name": "video",
+          "type": "VIDEO",
+          "links": null
+        },
+        {
+          "localized_name": "chain_state",
+          "name": "chain_state",
+          "type": "H3_CHAIN",
+          "links": [
+            22
+          ]
+        },
+        {
+          "localized_name": "summary",
+          "name": "summary",
+          "type": "STRING",
+          "links": [
+            24
+          ]
+        }
+      ],
+      "title": "Segment 3",
+      "properties": {
+        "Node name for S&R": "H3RenderSegment"
+      },
+      "widgets_values": [
+        true,
+        "subject_definitions:\n<Subject 1> is the young woman in <Picture 1>, in her early twenties, with shoulder-length wavy mid-brown hair worn loose with soft lilac-purple tones running through the mid-lengths and ends, fair clear skin, blue-grey eyes, dark natural brows and a slim build, wearing a chunky oatmeal-and-brown waffle-knit crew-neck sweater and dark slim jeans. Only her face, hair, colouring and sweater are taken from <Picture 1>; the calm closed-mouth half-smile and the still seated portrait pose in that image are not retained, because she is singing and dancing throughout the target video.\n<Subject 2> is the theatre stage in <Picture 2>: a full-width deep red velvet curtain hanging in heavy vertical folds across the back, a glossy honey-coloured wooden floor, a single warm amber followspot throwing a visible cone of light straight down onto centre stage and a dappled gobo pattern across the boards around it, a chrome vocal microphone on a black straight stand at centre, a drum kit on a low riser upstage behind the microphone, a two-tier keyboard rig and stool stage-left, a black monitor wedge and a small warm practical lamp stage-right, and an electric guitar on a stand at the far stage-right edge. Only the layout, shapes, materials, colours and lighting of that image are used. No musicians are present, and the drum kit, keyboards and guitar are never touched or played.\n\nsummary:\n[reference generation] <Subject 1> settles out of the pivot, sings the closing line of the unaccompanied song, and finishes on a full turn that comes down into stillness in the followspot on the empty stage <Subject 2>.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - her face, blue-grey eyes, shoulder-length wavy mid-brown hair with its lilac-purple tones and her chunky oatmeal waffle-knit sweater are retained exactly; the calm still portrait pose of <Picture 1> is not retained.\n<Subject 2> (appears in [Shot 1]): partially_preserved - the red velvet curtain, honey wooden floor, amber followspot and gobo dapple, centre microphone stand, drum riser, keyboard rig, monitor wedge and guitar stand are retained in the same layout; the empty framing of <Picture 2> is not retained, because <Subject 1> is performing in the light.\n\ndetailed_description:\nThe target video is photorealistic live-action concert footage shot vertically, filmed on a single locked-off camera at chest height about four metres back from centre stage, lit only by the warm amber followspot against the deep red curtain with the rest of the stage falling away into shadow, with a shallow depth of field so the drum kit and the curtain behind her are softly blurred, and with no on-screen text and no subtitles anywhere.\n[Shot 1] The segment opens on an exact replay of the closing moments of the preceding take and carries that motion straight through, so the join is invisible. She holds the exact body pose, head angle, gaze direction, arm position and facial expression carried in by the replayed opening and continues out of it without any reset or restart, and no new action begins before the 1.7-second mark. The camera is locked off and holds the same full-length wide shot for the whole segment with no cut, her whole body inside the cone of light with headroom above her and the dappled stage floor visible below her feet, never panning, zooming, cutting or changing its distance. She sings unaccompanied in a clear, warm young female voice at a relaxed mid-tempo, her jaw and lips opening and closing distinctly on every syllable so every word of the lyric is clearly formed, and she never settles into a fixed open smile or a laugh that would freeze her mouth. While she is singing her body stays quiet and she moves only her head, shoulders and one hand; every full dance move lands in the gap between sung lines rather than underneath one. She sings exactly the words given below and no others: she does not ad-lib, does not repeat herself, does not hum and does not add any further vocal to fill out the shot. Her weight finishes settling out of the pivot and she comes to a balanced stand facing the lens, arms low and open, back at the centre of the cone of amber light. She lifts her head and sings the closing line, her body still and both hands opening a little wider at her waist, <d>[English] so let it burn, I am not going home.</d> She closes her mouth on the last word. Into the silence she dances the finish: a single full turn on the spot, rising onto the balls of her feet as she comes round with both arms sweeping up overhead, her hair lifting and falling with the turn. She comes down out of it facing the lens, arms lowering slowly to her sides, and holds there completely still with her chest rising once, her mouth closed and singing nothing, the amber followspot steady on her and the red curtain unmoving behind her. The segment ends on that held stillness.\n\noverall_soundscape:\nThe large empty theatre's room tone carries straight on from the preceding segment without interruption: the same long natural reverb tail off the wooden stage and the back wall, her unaccompanied voice carrying out into that space, with the soft scuff and tap of her shoes on the boards and the faint rustle of her sweater as she moves. No instruments are played, there is no audience and there is no other sound.\n\nnon_diegetic_music:\nN/A",
+        8,
+        0,
+        0,
+        false
+      ],
+      "widgets_values_named": {
+        "resume": true,
+        "prompt": "subject_definitions:\n<Subject 1> is the young woman in <Picture 1>, in her early twenties, with shoulder-length wavy mid-brown hair worn loose with soft lilac-purple tones running through the mid-lengths and ends, fair clear skin, blue-grey eyes, dark natural brows and a slim build, wearing a chunky oatmeal-and-brown waffle-knit crew-neck sweater and dark slim jeans. Only her face, hair, colouring and sweater are taken from <Picture 1>; the calm closed-mouth half-smile and the still seated portrait pose in that image are not retained, because she is singing and dancing throughout the target video.\n<Subject 2> is the theatre stage in <Picture 2>: a full-width deep red velvet curtain hanging in heavy vertical folds across the back, a glossy honey-coloured wooden floor, a single warm amber followspot throwing a visible cone of light straight down onto centre stage and a dappled gobo pattern across the boards around it, a chrome vocal microphone on a black straight stand at centre, a drum kit on a low riser upstage behind the microphone, a two-tier keyboard rig and stool stage-left, a black monitor wedge and a small warm practical lamp stage-right, and an electric guitar on a stand at the far stage-right edge. Only the layout, shapes, materials, colours and lighting of that image are used. No musicians are present, and the drum kit, keyboards and guitar are never touched or played.\n\nsummary:\n[reference generation] <Subject 1> settles out of the pivot, sings the closing line of the unaccompanied song, and finishes on a full turn that comes down into stillness in the followspot on the empty stage <Subject 2>.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - her face, blue-grey eyes, shoulder-length wavy mid-brown hair with its lilac-purple tones and her chunky oatmeal waffle-knit sweater are retained exactly; the calm still portrait pose of <Picture 1> is not retained.\n<Subject 2> (appears in [Shot 1]): partially_preserved - the red velvet curtain, honey wooden floor, amber followspot and gobo dapple, centre microphone stand, drum riser, keyboard rig, monitor wedge and guitar stand are retained in the same layout; the empty framing of <Picture 2> is not retained, because <Subject 1> is performing in the light.\n\ndetailed_description:\nThe target video is photorealistic live-action concert footage shot vertically, filmed on a single locked-off camera at chest height about four metres back from centre stage, lit only by the warm amber followspot against the deep red curtain with the rest of the stage falling away into shadow, with a shallow depth of field so the drum kit and the curtain behind her are softly blurred, and with no on-screen text and no subtitles anywhere.\n[Shot 1] The segment opens on an exact replay of the closing moments of the preceding take and carries that motion straight through, so the join is invisible. She holds the exact body pose, head angle, gaze direction, arm position and facial expression carried in by the replayed opening and continues out of it without any reset or restart, and no new action begins before the 1.7-second mark. The camera is locked off and holds the same full-length wide shot for the whole segment with no cut, her whole body inside the cone of light with headroom above her and the dappled stage floor visible below her feet, never panning, zooming, cutting or changing its distance. She sings unaccompanied in a clear, warm young female voice at a relaxed mid-tempo, her jaw and lips opening and closing distinctly on every syllable so every word of the lyric is clearly formed, and she never settles into a fixed open smile or a laugh that would freeze her mouth. While she is singing her body stays quiet and she moves only her head, shoulders and one hand; every full dance move lands in the gap between sung lines rather than underneath one. She sings exactly the words given below and no others: she does not ad-lib, does not repeat herself, does not hum and does not add any further vocal to fill out the shot. Her weight finishes settling out of the pivot and she comes to a balanced stand facing the lens, arms low and open, back at the centre of the cone of amber light. She lifts her head and sings the closing line, her body still and both hands opening a little wider at her waist, <d>[English] so let it burn, I am not going home.</d> She closes her mouth on the last word. Into the silence she dances the finish: a single full turn on the spot, rising onto the balls of her feet as she comes round with both arms sweeping up overhead, her hair lifting and falling with the turn. She comes down out of it facing the lens, arms lowering slowly to her sides, and holds there completely still with her chest rising once, her mouth closed and singing nothing, the amber followspot steady on her and the red curtain unmoving behind her. The segment ends on that held stillness.\n\noverall_soundscape:\nThe large empty theatre's room tone carries straight on from the preceding segment without interruption: the same long natural reverb tail off the wooden stage and the back wall, her unaccompanied voice carrying out into that space, with the soft scuff and tap of her shoes on the boards and the faint rustle of her sweater as she moves. No instruments are played, there is no audience and there is no other sound.\n\nnon_diegetic_music:\nN/A",
+        "seconds": 8,
+        "handoff_seconds": 0,
+        "seed_override": 0,
+        "unload_models_after": false
+      },
+      "color": "#535",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 17,
+      "type": "H3ChainToVideo",
+      "pos": [
+        3235.5086387145557,
+        86.67222963162169
+      ],
+      "size": [
+        380,
+        140
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "chain",
+          "name": "chain",
+          "type": "H3_CHAIN",
+          "link": 22
+        },
+        {
+          "localized_name": "crf",
+          "name": "crf",
+          "type": "FLOAT",
+          "widget": {
+            "name": "crf"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "stabilize",
+          "name": "stabilize",
+          "type": "FLOAT",
+          "widget": {
+            "name": "stabilize"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "video",
+          "name": "video",
+          "type": "VIDEO",
+          "links": [
+            23
+          ]
+        },
+        {
+          "localized_name": "path",
+          "name": "path",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "title": "Join the segments",
+      "properties": {
+        "Node name for S&R": "H3ChainToVideo"
+      },
+      "widgets_values": [
+        14,
+        1
+      ],
+      "widgets_values_named": {
+        "crf": 14,
+        "stabilize": 1
+      },
+      "color": "#3f5159",
+      "bgcolor": "#3f5159"
+    },
+    {
+      "id": 18,
+      "type": "SaveVideo",
+      "pos": [
+        3235.5086387145557,
+        303.6121025908394
+      ],
+      "size": [
+        560,
+        126
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "video",
+          "name": "video",
+          "type": "VIDEO",
+          "link": 23
+        },
+        {
+          "localized_name": "filename_prefix",
+          "name": "filename_prefix",
+          "type": "STRING",
+          "widget": {
+            "name": "filename_prefix"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "format",
+          "name": "format",
+          "type": "COMFY_DYNAMICCOMBO_V3",
+          "widget": {
+            "name": "format"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "codec",
+          "name": "format.codec",
+          "type": "COMFY_DYNAMICCOMBO_V3",
+          "widget": {
+            "name": "format.codec"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "codec",
+          "name": "codec",
+          "shape": 7,
+          "type": "COMFY_DYNAMICCOMBO_V3",
+          "widget": {
+            "name": "codec"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "video",
+          "name": "video",
+          "type": "VIDEO",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.34.0",
+        "Node name for S&R": "SaveVideo"
+      },
+      "widgets_values": [
+        "video/h3_continuous",
+        "auto",
+        "auto",
+        "auto"
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "video/h3_continuous",
+        "format": "auto",
+        "format.codec": "auto",
+        "codec": "auto"
+      }
+    },
+    {
+      "id": 19,
+      "type": "PreviewAny",
+      "pos": [
+        3235.5086387145557,
+        817.3395678041459
+      ],
+      "size": [
+        560,
+        260
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "source",
+          "name": "source",
+          "type": "*",
+          "link": 24
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "STRING",
+          "name": "STRING",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "title": "What was rendered",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.34.0",
+        "Node name for S&R": "PreviewAny"
+      },
+      "widgets_values": [],
+      "widgets_values_named": {}
+    },
+    {
+      "id": 20,
+      "type": "MarkdownNote",
+      "pos": [
+        -700.6015283893385,
+        65.03491857465224
+      ],
+      "size": [
+        572.859375,
+        907.703125
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Models",
+      "properties": {},
+      "widgets_values": [
+        "## Model Links\n\n**Input Assets**\n\n- [kate.png](https://raw.githubusercontent.com/loopforge0/ComfyUI-H3-Continuous/refs/heads/main/example_inputs/kate.png) - `<Picture 1>`, the singer (`input/kate.png`)\n- [stage.png](https://raw.githubusercontent.com/loopforge0/ComfyUI-H3-Continuous/refs/heads/main/example_inputs/stage.png) - `<Picture 2>`, the stage (`input/stage.png`)\n\n**diffusion_models**\n\n- [minimax_h3_ref2va_pruned_int8_convrot.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors) (20 GB)\n\n**text_encoders**\n\n- [qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors) (15 GB)\n\n**vae**\n\n- [minimax_h3_video_vae_fp16.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/vae/minimax_h3_video_vae_fp16.safetensors)\n- [minimax_h3_audio_vae_fp32.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/vae/minimax_h3_audio_vae_fp32.safetensors)\n\n**loras**\n\n- 4 steps: [minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/loras/minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors)\n\nIt must be the **ref2va** model, not `fl2va`. This pack chains *reference*-conditioned\nrenders and the fl2va model takes no reference images.\n\nThe LoRA is optional but you almost certainly want it: it cuts sampling from 20 steps to\n4, which on a 12 GB card is about 9 minutes a shot instead of 31. Select the **Turbo\nLoRA** node, press **Ctrl+B** to un-bypass it, and set `steps` to 4.\n\n## Model Storage Location\n\n```\n\ud83d\udcc2 ComfyUI/\n\u251c\u2500\u2500 \ud83d\udcc2 models/\n\u2502   \u251c\u2500\u2500 \ud83d\udcc2 diffusion_models/\n\u2502   \u2502   \u2514\u2500\u2500 minimax_h3_ref2va_pruned_int8_convrot.safetensors\n\u2502   \u251c\u2500\u2500 \ud83d\udcc2 text_encoders/\n\u2502   \u2502   \u2514\u2500\u2500 qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors\n\u2502   \u251c\u2500\u2500 \ud83d\udcc2 vae/\n\u2502   \u2502   \u251c\u2500\u2500 minimax_h3_video_vae_fp16.safetensors\n\u2502   \u2502   \u2514\u2500\u2500 minimax_h3_audio_vae_fp32.safetensors\n\u2502   \u2514\u2500\u2500 \ud83d\udcc2 loras/\n\u2502       \u2514\u2500\u2500 minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors\n\u2514\u2500\u2500 \ud83d\udcc2 input/\n    \u251c\u2500\u2500 kate.png\n    \u2514\u2500\u2500 stage.png\n```\n\nEvery loader in this workflow carries its download link, so if a file is missing ComfyUI\noffers to fetch it when the workflow opens. Accept, or place the file by hand.\n\n## Report Issue\n\nNote: update ComfyUI first ([guide](https://docs.comfy.org/installation/update_comfyui)).\nThis pack needs **ComfyUI 0.34.0 or newer** - older builds have no MiniMax H3 nodes at\nall, so nothing here will load. Check yours under *Settings \u2192 About*.\n\n- This pack, its nodes or these workflows: [ComfyUI-H3-Continuous/issues](https://github.com/loopforge0/ComfyUI-H3-Continuous/issues)\n- ComfyUI itself, or the H3 nodes it ships: [ComfyUI/issues](https://github.com/comfyanonymous/ComfyUI/issues)\n- UI / frontend: [ComfyUI_frontend/issues](https://github.com/Comfy-Org/ComfyUI_frontend/issues)"
+      ],
+      "widgets_values_named": {
+        "text": "## Model Links\n\n**Input Assets**\n\n- [kate.png](https://raw.githubusercontent.com/vrauthor/ComfyUI-H3-Continuous/refs/heads/main/example_inputs/kate.png) - `<Picture 1>`, the singer (`input/kate.png`)\n- [stage.png](https://raw.githubusercontent.com/vrauthor/ComfyUI-H3-Continuous/refs/heads/main/example_inputs/stage.png) - `<Picture 2>`, the stage (`input/stage.png`)\n\n**diffusion_models**\n\n- [minimax_h3_ref2va_pruned_int8_convrot.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors) (20 GB)\n\n**text_encoders**\n\n- [qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors) (15 GB)\n\n**vae**\n\n- [minimax_h3_video_vae_fp16.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/vae/minimax_h3_video_vae_fp16.safetensors)\n- [minimax_h3_audio_vae_fp32.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/vae/minimax_h3_audio_vae_fp32.safetensors)\n\n**loras**\n\n- 4 steps: [minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/loras/minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors)\n\nIt must be the **ref2va** model, not `fl2va`. This pack chains *reference*-conditioned\nrenders and the fl2va model takes no reference images.\n\nThe LoRA is optional but you almost certainly want it: it cuts sampling from 20 steps to\n4, which on a 12 GB card is about 9 minutes a shot instead of 31. Select the **Turbo\nLoRA** node, press **Ctrl+B** to un-bypass it, and set `steps` to 4.\n\n## Model Storage Location\n\n```\n\ud83d\udcc2 ComfyUI/\n\u251c\u2500\u2500 \ud83d\udcc2 models/\n\u2502   \u251c\u2500\u2500 \ud83d\udcc2 diffusion_models/\n\u2502   \u2502   \u2514\u2500\u2500 minimax_h3_ref2va_pruned_int8_convrot.safetensors\n\u2502   \u251c\u2500\u2500 \ud83d\udcc2 text_encoders/\n\u2502   \u2502   \u2514\u2500\u2500 qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors\n\u2502   \u251c\u2500\u2500 \ud83d\udcc2 vae/\n\u2502   \u2502   \u251c\u2500\u2500 minimax_h3_video_vae_fp16.safetensors\n\u2502   \u2502   \u2514\u2500\u2500 minimax_h3_audio_vae_fp32.safetensors\n\u2502   \u2514\u2500\u2500 \ud83d\udcc2 loras/\n\u2502       \u2514\u2500\u2500 minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors\n\u2514\u2500\u2500 \ud83d\udcc2 input/\n    \u251c\u2500\u2500 kate.png\n    \u2514\u2500\u2500 stage.png\n```\n\nEvery loader in this workflow carries its download link, so if a file is missing ComfyUI\noffers to fetch it when the workflow opens. Accept, or place the file by hand.\n\n## Report Issue\n\nNote: update ComfyUI first ([guide](https://docs.comfy.org/installation/update_comfyui)).\nThis pack needs **ComfyUI 0.34.0 or newer** - older builds have no MiniMax H3 nodes at\nall, so nothing here will load. Check yours under *Settings \u2192 About*.\n\n- This pack, its nodes or these workflows: [ComfyUI-H3-Continuous/issues](https://github.com/vrauthor/ComfyUI-H3-Continuous/issues)\n- ComfyUI itself, or the H3 nodes it ships: [ComfyUI/issues](https://github.com/comfyanonymous/ComfyUI/issues)\n- UI / frontend: [ComfyUI_frontend/issues](https://github.com/Comfy-Org/ComfyUI_frontend/issues)"
+      }
+    },
+    {
+      "id": 21,
+      "type": "H3LoadSession",
+      "pos": [
+        560,
+        1980
+      ],
+      "size": [
+        380,
+        120
+      ],
+      "flags": {},
+      "order": 21,
+      "mode": 4,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "chain",
+          "type": "H3_CHAIN",
+          "links": null
+        },
+        {
+          "name": "summary",
+          "type": "STRING",
+          "links": [
+            25
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "H3LoadSession"
+      },
+      "widgets_values": [
+        "my_chain",
+        "latent"
+      ],
+      "widgets_values_named": {
+        "session_name": "my_chain",
+        "handoff_mode": "latent"
+      },
+      "title": "Which session?",
+      "color": "#3f5159",
+      "bgcolor": "#3f5159"
+    },
+    {
+      "id": 22,
+      "type": "PreviewAny",
+      "pos": [
+        560,
+        2130
+      ],
+      "size": [
+        380,
+        280
+      ],
+      "flags": {},
+      "order": 22,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "source",
+          "type": "*",
+          "link": 25
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewAny"
+      },
+      "widgets_values": [],
+      "widgets_values_named": {},
+      "title": "What is in it"
+    },
+    {
+      "id": 23,
+      "type": "H3RepairSegment",
+      "pos": [
+        1080,
+        1980
+      ],
+      "size": [
+        420,
+        660
+      ],
+      "flags": {},
+      "order": 23,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "settings",
+          "type": "H3_SETTINGS",
+          "link": 29
+        },
+        {
+          "label": "image_0",
+          "name": "images.image_0",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "label": "image_1",
+          "name": "images.image_1",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "label": "image_2",
+          "name": "images.image_2",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "label": "video_0",
+          "name": "videos.video_0",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "label": "video_audio_0",
+          "name": "video_audios.video_audio_0",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": null
+        },
+        {
+          "label": "audio_0",
+          "name": "audios.audio_0",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": null
+        },
+        {
+          "name": "chain",
+          "type": "H3_CHAIN",
+          "links": [
+            26
+          ]
+        },
+        {
+          "name": "summary",
+          "type": "STRING",
+          "links": [
+            28
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "H3RepairSegment"
+      },
+      "widgets_values": [
+        "my_chain",
+        2,
+        "subject_definitions:\n<Subject 1> is the person in <Picture 2>: REPEAT THE DESCRIPTION FROM SEGMENT 1 VERBATIM.\n<Subject 2> is the place in <Picture 1>: DESCRIBE THIS SEGMENT'S LOCATION.\n\nsummary:\n[reference generation + keyframe completion] The target video opens on an exact replay\nof the closing 1.6 seconds of the preceding segment of the same unbroken take and\ncarries straight on from it as DESCRIBE THIS SHOT.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - LIST WHAT MUST NOT CHANGE.\n<Subject 2> (appears in [Shot 1]): partially_preserved - LIST WHAT CARRIES OVER.\n\ndetailed_description:\nThe target video is photorealistic live-action, REPEAT THE STYLE, LENS AND LIGHT RULES\nFROM SEGMENT 1 WORD FOR WORD.\n[Shot 1] The segment opens on an exact replay of the closing moments of the preceding\ntake and carries that motion straight through, so the join is invisible. The subject\nholds the exact body pose, head angle, gaze direction and facial expression carried in\nby the replayed opening, continuing them without any reset before moving into the\nactions below. DESCRIBE THE NEW ACTION - and schedule nothing before the 1.7 second\nmark, because the first 1.6 seconds are already pinned.\n\noverall_soundscape:\nThe ambience carries straight on from the preceding segment without interruption.\nDESCRIBE THIS SEGMENT'S SOUND.\n\nnon_diegetic_music:\nN/A",
+        8.0,
+        1.625,
+        0,
+        true
+      ],
+      "widgets_values_named": {
+        "session_name": "my_chain",
+        "segment_number": 2,
+        "prompt": "subject_definitions:\n<Subject 1> is the person in <Picture 2>: REPEAT THE DESCRIPTION FROM SEGMENT 1 VERBATIM.\n<Subject 2> is the place in <Picture 1>: DESCRIBE THIS SEGMENT'S LOCATION.\n\nsummary:\n[reference generation + keyframe completion] The target video opens on an exact replay\nof the closing 1.6 seconds of the preceding segment of the same unbroken take and\ncarries straight on from it as DESCRIBE THIS SHOT.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - LIST WHAT MUST NOT CHANGE.\n<Subject 2> (appears in [Shot 1]): partially_preserved - LIST WHAT CARRIES OVER.\n\ndetailed_description:\nThe target video is photorealistic live-action, REPEAT THE STYLE, LENS AND LIGHT RULES\nFROM SEGMENT 1 WORD FOR WORD.\n[Shot 1] The segment opens on an exact replay of the closing moments of the preceding\ntake and carries that motion straight through, so the join is invisible. The subject\nholds the exact body pose, head angle, gaze direction and facial expression carried in\nby the replayed opening, continuing them without any reset before moving into the\nactions below. DESCRIBE THE NEW ACTION - and schedule nothing before the 1.7 second\nmark, because the first 1.6 seconds are already pinned.\n\noverall_soundscape:\nThe ambience carries straight on from the preceding segment without interruption.\nDESCRIBE THIS SEGMENT'S SOUND.\n\nnon_diegetic_music:\nN/A",
+        "seconds": 8.0,
+        "handoff_seconds": 1.625,
+        "seed_override": 0,
+        "pin_ending": true
+      },
+      "title": "H3 Repair Segment",
+      "color": "#533",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 24,
+      "type": "H3ChainToVideo",
+      "pos": [
+        1560,
+        1980
+      ],
+      "size": [
+        380,
+        140
+      ],
+      "flags": {},
+      "order": 24,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "chain",
+          "type": "H3_CHAIN",
+          "link": 26
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": [
+            27
+          ]
+        },
+        {
+          "name": "path",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "H3ChainToVideo"
+      },
+      "widgets_values": [
+        14.0,
+        1.0
+      ],
+      "widgets_values_named": {
+        "crf": 14.0,
+        "stabilize": 1.0
+      },
+      "title": "Join the segments",
+      "color": "#3f5159",
+      "bgcolor": "#3f5159"
+    },
+    {
+      "id": 25,
+      "type": "SaveVideo",
+      "pos": [
+        1560,
+        2140
+      ],
+      "size": [
+        560,
+        560
+      ],
+      "flags": {},
+      "order": 25,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 27
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveVideo"
+      },
+      "widgets_values": [
+        "video/h3_continuous_repaired",
+        "auto",
+        "auto"
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "video/h3_continuous_repaired",
+        "format": "auto",
+        "codec": "auto"
+      }
+    },
+    {
+      "id": 26,
+      "type": "PreviewAny",
+      "pos": [
+        1560,
+        2740
+      ],
+      "size": [
+        560,
+        260
+      ],
+      "flags": {},
+      "order": 26,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "source",
+          "type": "*",
+          "link": 28
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewAny"
+      },
+      "widgets_values": [],
+      "widgets_values_named": {},
+      "title": "What was rendered"
+    },
+    {
+      "id": 27,
+      "type": "MarkdownNote",
+      "pos": [
+        -700.6015283893385,
+        1980
+      ],
+      "size": [
+        572.859375,
+        760
+      ],
+      "flags": {},
+      "order": 27,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Repair",
+      "properties": {},
+      "widgets_values": [
+        "# Repair - fixing one bad segment\n\n**This half is bypassed.** It costs nothing until you turn it on. To use it: select\nthese nodes, press **Ctrl+B** to un-bypass, then select the **shots** above and\n**Ctrl+B** them off, so only one half runs. Running both renders both, and pays GPU\ntime for both.\n\nOne segment came out wrong - a fluffed line, a hand through a lamppost. Normally\nre-rendering segment N changes its ending, so every segment after it stops joining and\nhas to be re-rendered too. On a seven-shot chain, fixing shot 2 costs six renders.\n\n**H3 Repair Segment pins both ends.** The opening is pinned to the previous segment's\nhandoff clip; the ending is pinned to *the very clip the next segment already opens on*.\nThe replacement lands between two fixed points and nothing downstream moves.\n\n## Do this\n1. Type the `session_name` you rendered with into **H3 Load Session**. It prints what is\n   in that session - segment numbers, lengths, seeds - on the preview beside it.\n2. Set `segment_number` to the one you are replacing (1-based, same as `seg_NN.mp4`).\n3. Rebuild that shot on the **H3 Repair Segment** node: same reference images, same\n   length, fixed prompt.\n4. Run. The old file is kept as `seg_NN.replaced.mp4`, the node's `video` output plays\n   the replacement immediately, and the whole cut is re-joined.\n\nIt shares the **H3 Chain Settings** node above, so the models, sampler, canvas size and\n`chain_seed` are already the ones the chain used. They have to be.\n\n## Notes\n- Leave `pin_ending` **on**. Turn it off only for the very last segment, or when you\n  mean to re-render everything after this one.\n- The pinned ending is anchored as picture only. Its audio comes from the render you are\n  throwing away, and re-anchoring that would drag back exactly what you are removing.\n- Keep the replacement the same length as the original. Repairs are for a bad take, not\n  for a re-cut.\n- `seg_NN.tail.mp4` is deliberately **not** rewritten. It is what segment N+1 opens on,\n  and the repair was pinned to it."
+      ],
+      "color": "#533",
+      "bgcolor": "#533"
+    }
+  ],
+  "links": [
+    [
+      1,
+      2,
+      0,
+      3,
+      0,
+      "MODEL"
+    ],
+    [
+      2,
+      2,
+      0,
+      8,
+      0,
+      "MODEL"
+    ],
+    [
+      3,
+      3,
+      0,
+      9,
+      0,
+      "MODEL"
+    ],
+    [
+      4,
+      4,
+      0,
+      9,
+      1,
+      "CLIP"
+    ],
+    [
+      5,
+      5,
+      0,
+      9,
+      2,
+      "VAE"
+    ],
+    [
+      6,
+      6,
+      0,
+      9,
+      3,
+      "VAE"
+    ],
+    [
+      7,
+      7,
+      0,
+      9,
+      4,
+      "SAMPLER"
+    ],
+    [
+      8,
+      8,
+      0,
+      9,
+      5,
+      "SIGMAS"
+    ],
+    [
+      9,
+      10,
+      0,
+      9,
+      6,
+      "INT"
+    ],
+    [
+      10,
+      10,
+      1,
+      9,
+      7,
+      "INT"
+    ],
+    [
+      11,
+      9,
+      0,
+      12,
+      0,
+      "H3_SETTINGS"
+    ],
+    [
+      12,
+      13,
+      0,
+      12,
+      2,
+      "IMAGE"
+    ],
+    [
+      13,
+      14,
+      0,
+      12,
+      3,
+      "IMAGE"
+    ],
+    [
+      14,
+      9,
+      0,
+      15,
+      0,
+      "H3_SETTINGS"
+    ],
+    [
+      15,
+      12,
+      1,
+      15,
+      1,
+      "H3_CHAIN"
+    ],
+    [
+      16,
+      13,
+      0,
+      15,
+      2,
+      "IMAGE"
+    ],
+    [
+      17,
+      14,
+      0,
+      15,
+      3,
+      "IMAGE"
+    ],
+    [
+      18,
+      9,
+      0,
+      16,
+      0,
+      "H3_SETTINGS"
+    ],
+    [
+      19,
+      15,
+      1,
+      16,
+      1,
+      "H3_CHAIN"
+    ],
+    [
+      20,
+      13,
+      0,
+      16,
+      2,
+      "IMAGE"
+    ],
+    [
+      21,
+      14,
+      0,
+      16,
+      3,
+      "IMAGE"
+    ],
+    [
+      22,
+      16,
+      1,
+      17,
+      0,
+      "H3_CHAIN"
+    ],
+    [
+      23,
+      17,
+      0,
+      18,
+      0,
+      "VIDEO"
+    ],
+    [
+      24,
+      16,
+      2,
+      19,
+      0,
+      "STRING"
+    ],
+    [
+      25,
+      21,
+      1,
+      22,
+      0,
+      "STRING"
+    ],
+    [
+      26,
+      23,
+      1,
+      24,
+      0,
+      "H3_CHAIN"
+    ],
+    [
+      27,
+      24,
+      0,
+      25,
+      0,
+      "VIDEO"
+    ],
+    [
+      28,
+      23,
+      2,
+      26,
+      0,
+      "STRING"
+    ],
+    [
+      29,
+      9,
+      0,
+      23,
+      0,
+      "H3_SETTINGS"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "1 - Models, sampler, canvas",
+      "bounding": [
+        20,
+        40,
+        980,
+        1060
+      ],
+      "color": "#3f789e",
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "2 - Your shots, in order -- each one renders here",
+      "bounding": [
+        1080,
+        0,
+        1908.2267814312809,
+        822.0148468078166
+      ],
+      "color": "#535",
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "3 - Join and save",
+      "bounding": [
+        3215.5086387145557,
+        -2.6604321958540638,
+        600,
+        1080
+      ],
+      "color": "#3f5159",
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "B - REPAIR (bypassed) - Which session? (read-only check)",
+      "bounding": [
+        540,
+        1940,
+        440,
+        510
+      ],
+      "color": "#3f789e",
+      "flags": {}
+    },
+    {
+      "id": 5,
+      "title": "B - REPAIR (bypassed) - The segment you are replacing, join and save",
+      "bounding": [
+        1060,
+        1940,
+        940,
+        1080
+      ],
+      "color": "#3f789e",
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.5,
+      "offset": [
+        920.6,
+        760.0
+      ]
+    }
+  },
+  "version": 0.4
+}
