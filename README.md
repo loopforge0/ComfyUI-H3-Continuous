@@ -289,6 +289,19 @@ replayed openings, and the sing-then-move alternation that keeps the mouth and t
 from competing. The reasoning behind each choice is written up in
 [`tools/kate_stage_prompts.py`](tools/kate_stage_prompts.py).
 
+### Twenty seven worked examples
+
+[`prompts/`](prompts) holds every prompt behind the takes in the video walkthrough, one file
+per render, copied byte for byte from what was sent rather than tidied up afterwards: a
+seven-render walk down Market Street built twice at two resolutions, a four-render piece to
+camera, a six-render one, and the three-render stage song that ships as the example workflow.
+
+Each folder carries a README with the thing a prompt cannot carry itself — **which reference
+image was wired into which `<Picture N>` slot**. Those numbers are positional, taken from the
+order the images enter the node, so a prompt read without that table has unresolvable
+references. Seeds, frame counts and handoff lengths are in the same tables, and the reference
+images are in each folder's `refs/`.
+
 ---
 
 ## The nodes

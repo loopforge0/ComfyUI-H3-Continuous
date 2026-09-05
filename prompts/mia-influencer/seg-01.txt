@@ -1,0 +1,18 @@
+subject_definitions:
+<Subject 1> is the young woman shown in the three-panel character sheet in <Picture 1>, in her mid-twenties, with long wavy mid-brown hair falling well past her shoulders, fair lightly freckled skin, hazel-green eyes, dark natural brows and a slim build, wearing a plain oatmeal-coloured linen short-sleeved shift dress with a round neckline. Only her face, hair, skin and dress are taken from <Picture 1>; the three separate figures side by side, the plain pale studio backdrop, the full-length framing and the barefoot standing poses in that image are not part of the target video, which is a tight vertical closeup filmed in a bedroom.
+
+summary:
+[reference generation] <Subject 1> talks straight to a phone camera in a tight vertical closeup, opening a review of a film she watched the night before, and reaches off-frame at the end to bring a lipstick up into shot.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]): fully_preserved - her face, freckles, hazel-green eyes, long wavy mid-brown hair and oatmeal linen dress are retained exactly; the three-panel character-sheet layout, the plain pale studio backdrop and the full-body standing framing of <Picture 1> are not retained.
+
+detailed_description:
+The target video is photorealistic live-action shot vertically for social media, filmed on a phone front camera held at arm's length just above eye level in a bright modern bedroom, in soft even daylight from a window behind the camera, with a shallow depth of field so the pale wall, the corner of a bed and a shelf of plants behind her are softly blurred, and with no on-screen text and no subtitles anywhere.
+[Shot 1] The camera is handheld at arm's length and holds the same tight head-and-shoulders closeup for the whole segment with no cut, the top of her head near the top of frame and the bottom of frame at her collarbones, drifting only very slightly the way a hand-held phone does and never zooming, cutting or changing its distance. She looks straight down the lens throughout and talks continuously and animatedly at a quick natural conversational pace, her expressions changing constantly -- brows lifting, eyes widening, a wince, a grin, a shrug -- while her jaw and lips open and close distinctly on every syllable, never settling into a fixed open smile or a laugh that would freeze her mouth. Each movement of her hands falls in the gap after a line rather than underneath it, so her mouth is never competing with a gesture. <Subject 1>, the young woman with long wavy mid-brown hair and the oatmeal linen dress, begins already mid-thought, leaning in slightly toward the lens with her brows raised, and says in a bright, quick, conversational young female voice, <d>[English] Okay, I finally watched it. The one everybody has been posting about.</d> She pulls a face, tips her head, and carries straight on, <d>[English] And I have thoughts. So many thoughts.</d> She rolls her eyes upward in mock exhaustion, then grins. In the last two seconds she reaches down out of the bottom of frame with her right hand and brings a slim gold lipstick tube up into shot beside her chin, holding it up to the lens as she keeps talking, <d>[English] Also, we are doing this while I get ready.</d> The shot ends with the lipstick held up beside her face and her mouth still moving.
+
+overall_soundscape:
+Close indoor room tone with a little natural reverb from bare walls, her voice loud and close on the phone microphone, the faint rustle of her hand moving near the mic, and very distant muffled traffic outside the window.
+
+non_diegetic_music:
+N/A
