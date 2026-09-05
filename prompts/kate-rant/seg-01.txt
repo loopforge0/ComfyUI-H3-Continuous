@@ -1,0 +1,18 @@
+subject_definitions:
+<Subject 1> is the young woman in <Picture 1>, in her early twenties, with shoulder-length wavy mid-brown hair worn loose with soft lilac-purple tones running through the mid-lengths and ends, fair clear skin, blue-grey eyes, dark natural brows and a slim build, wearing a chunky oatmeal-and-brown waffle-knit crew-neck sweater. Only her face, hair, colouring and sweater are taken from <Picture 1>; the calm closed-mouth half-smile and the still portrait pose in that image are not retained, because she is talking rapidly and animatedly throughout the target video.
+
+summary:
+A young woman films herself in closeup on her phone and launches straight into an irritated rant about reality dating shows.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]): fully_preserved - her face, blue-grey eyes, shoulder-length wavy mid-brown hair with its lilac-purple tones and her chunky oatmeal waffle-knit sweater are retained exactly; the calm still portrait pose of <Picture 1> is not retained.
+
+detailed_description:
+The target video is photorealistic live-action shot vertically for social media, filmed on a phone front camera held at arm's length just above eye level in a warm book-lined room, in soft daylight from a window to her left, with a shallow depth of field so the wooden bookshelves behind her are softly blurred, and with no on-screen text and no subtitles anywhere.
+[Shot 1] The camera is handheld at arm's length and holds the same tight head-and-shoulders closeup for the whole segment with no cut, the top of her head near the top of frame and the bottom of frame at her collarbones, drifting only very slightly the way a hand-held phone does and never zooming, cutting or changing its distance. She looks straight down the lens and talks fast, at a quick ranting pace, with mounting exasperation, in a bright, expressive young female voice, her jaw and lips opening and closing distinctly on every syllable so every word is clearly formed, never settling into a fixed open smile or a laugh that would freeze her mouth. Her eyebrows, eyes and the set of her mouth carry the irritation, and each hand movement lands in the gap between phrases rather than underneath a line. She speaks exactly the words given below and no others: she does not ad-lib, does not repeat herself and does not add any further dialogue to fill out the shot. She is already mid-thought as the shot opens, leaning slightly in toward the lens, and goes straight into the rant without any preamble, <d>[English] So I'm going to rant a little here, but I'm just soooo tired of these so-called reality shows</d>. She stretches the word 'soooo' out with her eyes closing and her head tipping back for a moment, and on the words 'so-called reality shows' her mouth pulls to one side in distaste. With the line finished she lets out a short audible breath through her nose, closes her mouth and holds a flat weary look straight down the lens as the shot ends.
+
+overall_soundscape:
+Close indoor room tone in a soft furnished room, her voice loud and close on the phone microphone, with faint clothing rustle as she gestures and no other sound.
+
+non_diegetic_music:
+N/A

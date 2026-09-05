@@ -1,0 +1,18 @@
+subject_definitions:
+<Subject 1> is the young woman in <Picture 1>, in her early twenties, with shoulder-length wavy mid-brown hair worn loose with soft lilac-purple tones running through the mid-lengths and ends, fair clear skin, blue-grey eyes, dark natural brows and a slim build, wearing a chunky oatmeal-and-brown waffle-knit crew-neck sweater. Only her face, hair, colouring and sweater are taken from <Picture 1>; the calm closed-mouth half-smile and the still portrait pose in that image are not retained, because she is talking rapidly and animatedly throughout the target video.
+
+summary:
+The same unbroken closeup continues: she lands the final complaint about the contestants' wardrobes and stops.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]): fully_preserved - her face, blue-grey eyes, shoulder-length wavy mid-brown hair with its lilac-purple tones and her chunky oatmeal waffle-knit sweater are retained exactly; the calm still portrait pose of <Picture 1> is not retained.
+
+detailed_description:
+The target video is photorealistic live-action shot vertically for social media, filmed on a phone front camera held at arm's length just above eye level in a warm book-lined room, in soft daylight from a window to her left, with a shallow depth of field so the wooden bookshelves behind her are softly blurred, and with no on-screen text and no subtitles anywhere.
+[Shot 1] The camera is handheld at arm's length and holds the same tight head-and-shoulders closeup for the whole segment with no cut, the top of her head near the top of frame and the bottom of frame at her collarbones, drifting only very slightly the way a hand-held phone does and never zooming, cutting or changing its distance. The segment opens on an exact replay of the closing moments of the preceding take and carries that motion straight through, so the join is invisible. She holds the exact body pose, head angle, gaze direction, hand position and facial expression carried in by the replayed opening and continues out of it without any reset or restart. She looks straight down the lens and talks fast, at a quick ranting pace, with mounting exasperation, in a bright, expressive young female voice, her jaw and lips opening and closing distinctly on every syllable so every word is clearly formed, never settling into a fixed open smile or a laugh that would freeze her mouth. Her eyebrows, eyes and the set of her mouth carry the irritation, and each hand movement lands in the gap between phrases rather than underneath a line. She speaks exactly the words given below and no others: she does not ad-lib, does not repeat herself and does not add any further dialogue to fill out the shot. Coming straight out of the upward eye flick, she completes the sentence without pausing just after the one-and-three-quarter-second mark, delivering it fast and flat in one breath, <d>[English] that all your clothes should fit in a shoe box that you had to skip getting any jeans and shirts?</d>. On the words 'shoe box' she sketches a small box in the air with both hands held close together. With the line finished she pushes both hands up into her hair and rakes them back through it in one quick exasperated movement, then drops them, closes her mouth and holds a long flat stare straight down the lens as the shot ends.
+
+overall_soundscape:
+The close indoor room tone carries straight on from the preceding segment without interruption: her voice loud and close on the phone microphone, with faint clothing rustle as she gestures and no other sound.
+
+non_diegetic_music:
+N/A
