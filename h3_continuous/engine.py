@@ -43,6 +43,7 @@ from .common import (
     MiniMaxH3AddGuide,
     MiniMaxH3ReferenceToVideo,
     audio_latent_frames,
+    assert_clip_guides_supported,
     log,
     slice_audio,
     video_latent_t,
@@ -274,6 +275,10 @@ def _pin_pixels(settings, positive, latent, images, audio, frame_idx):
 
 def _pin(settings, positive, latent, anchor, frame_idx):
     """Anchor whichever form this anchor arrived in."""
+    # Both forms pin a clip, and a clip is what a pre-0.34.0 core mis-sizes; the
+    # check is here rather than in either branch so neither path can skip it.
+    if anchor_frames(anchor) > 1:
+        assert_clip_guides_supported()
     if anchor.get("video_latent") is not None:
         return _pin_latent(positive, latent, anchor, frame_idx)
     return _pin_pixels(settings, positive, latent, anchor["images"],
