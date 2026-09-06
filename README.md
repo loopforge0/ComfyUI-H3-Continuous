@@ -156,6 +156,7 @@ chain, turn on `unload_models_after` on the single shot where it happens.
 | `seconds` | Render Segment | Length of this shot. Snapped up to H3's 17k+5 grid (8 s → 192 frames). Trained range ≈ 5–15 s. |
 | `handoff_seconds` | Render Segment, advanced | How much of **this** shot's ending the **next** one opens on. Snapped down to 5 / 22 / 39 / 56 frames. Set to 0 on the last shot of a take. |
 | `seed_override` | Render Segment, advanced | 0 derives from the chain seed. Set it to re-roll one shot. |
+| `model` | Render Segment | Optional. A MODEL for this shot only, overriding the Settings one — this is where a per-shot LoRA goes. |
 | `chain_seed` | Settings | Changing it re-renders everything. |
 | `resume` | Render Segment | Reuse this segment if unchanged (see below). |
 | `handoff_mode` | Settings, advanced | `latent` (default) slices the handoff out of the sampled latent — no VAE, exact anchor, faster. `pixel` is the old decode/re-encode route; use it only to change resolution mid-session. |
@@ -179,6 +180,34 @@ Longer handoffs also cost you finished footage: at 8 s shots with a 1.625 s hand
 every shot after the first contributes 6.375 s to the cut. The reasons behind the exact
 numbers — why 39 frames in particular, and what the audio grid has to do with it — are
 in [how it works](docs/how-it-works.md#1-anchor-the-tail-dont-reference-it).
+
+### A LoRA on one shot
+
+**H3 Render Segment** has an optional `model` input. Wire one in and that segment
+renders on it instead of the model on **H3 Chain Settings**; leave it unconnected and
+nothing changes. There is no LoRA widget on the node, because ComfyUI already has good
+LoRA nodes and this way you get all of them:
+
+```
+Load Diffusion Model ─┬─ LoraLoaderModelOnly (turbo) ─┬─ H3 Chain Settings . model
+                      │                               ├─ H3 Render Segment 2 . model
+                      │                               └─ LoraLoaderModelOnly (dance) ─ H3 Render Segment 3 . model
+```
+
+Two things to hold on to:
+
+**Chain the turbo LoRA through, don't replace it.** The input swaps the model out
+rather than adding to it, so a segment handed a bare checkpoint samples on 4-step
+sigmas without the LoRA those sigmas exist for — 4 steps of a 20-step model, which
+looks like a render that gave up half way.
+
+**MODEL only.** H3 LoRAs are diffusion-side; there is no CLIP input here, and routing
+one through Qwen3-VL is not what they are trained for.
+
+Changing a LoRA or its strength re-renders that segment and every segment after it even
+with `resume` on — the cache key reads the model's patch list, so it sees the swap. That
+is also the cost: a style LoRA dropped onto shot 2 of a six-shot take re-renders five
+shots. Settle the take first, then decorate.
 
 ---
 
@@ -309,7 +338,7 @@ images are in each folder's `refs/`.
 | Node | Does |
 | --- | --- |
 | **H3 Chain Settings** | Models, sampler, canvas, seed and session name in one bundle. Every other node here takes it. |
-| **H3 Render Segment** | One shot, in and out: prompt, images → `<Picture n>`, videos → `<Video n>`, audio → `<Audio n>`, length, handoff — and it renders right there. Outputs its own `video` the moment it finishes, plus a `chain_state` that wires into the next H3 Render Segment to continue the take. |
+| **H3 Render Segment** | One shot, in and out: prompt, images → `<Picture n>`, videos → `<Video n>`, audio → `<Audio n>`, length, handoff — and it renders right there. Optional `model` input takes this shot on a LoRA of its own. Outputs its own `video` the moment it finishes, plus a `chain_state` that wires into the next H3 Render Segment to continue the take. |
 | **H3 Chain to Video** | Joins a chain's segments into one cut, dropping each replayed opening. `stabilize` also flattens the chain's slow colour drift, on the CPU. |
 | **H3 Repair Segment** | Re-renders one segment pinned at both ends. |
 | **H3 Load Session** | Picks up a session already on disk, to re-join, repair, or extend with more H3 Render Segment nodes, without re-rendering what is done. |
@@ -326,6 +355,29 @@ straight through.
 ---
 
 ## Troubleshooting
+
+**Segment 1 renders, segment 2 dies with `shape mismatch: value tensor of shape
+[A, 96] cannot be broadcast to indexing result of shape [B, 96]`.** Your ComfyUI is
+half updated. Segment 1 pins nothing, so it never touches the code that is wrong;
+segment 2 opens on a 39-frame handoff, and a core from before `MiniMaxH3AddGuide`
+(ComfyUI 0.34.0) reserves room for **one** latent frame of guide however long the guide
+actually is — so twelve frames' worth of rows go into a slot sized for one, and torch
+says so.
+
+The odd part is that such a core cannot have `MiniMaxH3AddGuide` at all, and this pack
+refuses to load without it. Both arrived in the same commit. So if you are seeing this,
+`comfy_extras/nodes_minimax_h3.py` updated and `comfy/ldm/minimax/model.py` did not.
+Update ComfyUI, restart it fully — not just "reload the frontend" — and check:
+
+```bash
+grep "vt = video_latent.shape\[2\]" ComfyUI/comfy/ldm/minimax/model.py
+```
+
+One line back means you are fixed. Nothing back means the file is still the old one; if
+it prints the line and the error persists, delete `ComfyUI/comfy/ldm/minimax/__pycache__`
+and restart. From this version on the pack checks for this before it starts sampling, so
+you get this explanation instead of a tensor shape, in the first second rather than the
+fifth minute.
 
 **A later segment replays the previous segment's dialogue.** The handoff clip's audio is
 longer than its video. A guide's audio is cropped against the *target's* remaining

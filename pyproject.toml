@@ -1,7 +1,7 @@
 [project]
 name = "comfyui-h3-continuous"
 description = "Chain MiniMax H3 renders into one unbroken take: each segment opens on an exact replay of the last, pinned with AddGuide. Resumable, with a both-ends-pinned repair node."
-version = "1.0.0"
+version = "1.1.0"
 license = { file = "LICENSE" }
 requires-python = ">=3.10"
 dependencies = []
