@@ -35,6 +35,58 @@ def log(msg, *args):
     logging.info("[H3 Continuous] " + msg, *args)
 
 
+_CLIP_GUIDES = None
+
+
+def _probe_clip_guides():
+    """Does this core reserve a guide latent's real length in the packed sequence?
+
+    ``PackedLayout`` is asked for a two-frame guide and its answer is counted. A
+    core with multi-frame guide support reserves ``vt * frame_rows`` condition
+    rows; the one that shipped before ``MiniMaxH3AddGuide`` reserves ``frame_rows``
+    -- one frame -- whatever length of guide it is handed.
+
+    A probe rather than a version string because that is the thing that actually
+    has to be true, and because the failure this catches is a *partially* updated
+    install, where the version number is already the new one.
+    """
+    from comfy.ldm.minimax.model import PackedLayout
+
+    latent_h = latent_w = 4
+    frame_rows = (latent_h // 2) * (latent_w // 2)
+    guide = {"resolved_frame_index": 0, "latent": torch.zeros(1, 24, 2, latent_h, latent_w)}
+    layout = PackedLayout(1, 2, latent_h, latent_w, 1, keyframes=[guide])
+    return int((~layout.img_update).sum()) == 2 * frame_rows
+
+
+def assert_clip_guides_supported():
+    """Refuse to pin a clip a core of this vintage will mis-size.
+
+    Without this the render gets several minutes into the segment and then dies
+    inside the DiT on a bare tensor shape, naming neither the guide nor ComfyUI.
+    """
+    global _CLIP_GUIDES
+    if _CLIP_GUIDES is None:
+        try:
+            _CLIP_GUIDES = _probe_clip_guides()
+        except Exception:
+            _CLIP_GUIDES = True  # an unreadable core is not grounds for refusing to render
+    if _CLIP_GUIDES:
+        return
+    raise RuntimeError(
+        "This ComfyUI reserves one latent frame for a guide clip however long the "
+        "clip is, so the handoff this segment opens on would write about twelve "
+        "times the rows the sequence has room for -- the 'shape mismatch: value "
+        "tensor of shape [A, 96] cannot be broadcast to indexing result of shape "
+        "[B, 96]' that would come out of the sampler in a minute or two.\n\n"
+        "Multi-frame guides arrived in ComfyUI together with MiniMaxH3AddGuide, in "
+        "0.34.0. This install has that node -- the pack does not load without it -- "
+        "but comfy/ldm/minimax/model.py is from before it, which is a half-applied "
+        "update rather than an old one. Update ComfyUI, restart it fully, and check "
+        "that comfy/ldm/minimax/model.py contains 'vt = video_latent.shape[2]'. If "
+        "it does and this still fires, delete comfy/ldm/minimax/__pycache__.")
+
+
 def generation_length(frames):
     """Snap a frame count UP onto H3's 17k+5 grid.
 

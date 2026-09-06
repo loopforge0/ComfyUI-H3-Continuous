@@ -215,6 +215,26 @@ HANDOFF_TOOLTIP = (
 )
 
 
+SEGMENT_MODEL_TOOLTIP = (
+    "A MODEL for THIS SHOT ONLY, overriding the one on H3 Chain Settings. Leave it "
+    "unconnected and the segment renders on the settings model, which is what every "
+    "segment did before this input existed.\n\n"
+    "This is where a per-shot LoRA goes: wire H3 Chain Settings' own model source "
+    "through a LoraLoaderModelOnly (or any LoRA stacker) and into here, and only "
+    "this segment sees it. Different LoRAs on different segments is the point -- a "
+    "character LoRA that carries the whole take, a motion or style LoRA that comes "
+    "in for one shot and leaves again.\n\n"
+    "Keep the turbo LoRA (and anything else the chain relies on) in the stack you "
+    "wire in: this input REPLACES the settings model rather than adding to it, so a "
+    "segment fed a bare checkpoint would sample at 4 steps' worth of sigmas without "
+    "the LoRA those sigmas were chosen for.\n\n"
+    "MODEL only, by design. H3 LoRAs are diffusion-side, and routing one through "
+    "the Qwen3-VL text encoder as well is not something they are trained for.\n\n"
+    "Changing the LoRA or its strength re-renders this segment, and every segment "
+    "after it, even with resume on -- the cache key sees the patch list."
+)
+
+
 def _segment_schema():
     """The shot fields shared by H3 Render Segment and H3 Repair Segment."""
     return [
@@ -232,6 +252,7 @@ def _segment_schema():
                     "else to re-roll just this segment. (Not named 'seed' on purpose "
                     "-- that name gets an automatic randomise control, which would "
                     "re-render this segment on every run.)"),
+        io.Model.Input("model", optional=True, tooltip=SEGMENT_MODEL_TOOLTIP),
         io.Autogrow.Input(
             "images", optional=True,
             tooltip="Reference images -> <Picture 1..9>.",
@@ -281,6 +302,18 @@ def _segment_from_widgets(prompt, seconds, handoff_seconds, seed_override,
         "video_audios": ordered_autogrow(video_audios),
         "audios": [a for _, a in ordered_autogrow(audios)],
     }
+
+
+def _with_model(settings, model):
+    """The settings bundle this shot renders on, with its own model swapped in.
+
+    A copy, never a mutation: one H3 Chain Settings node feeds every segment in the
+    chain, so writing into it would leak this shot's LoRA into all the others -- and
+    into their cache keys, re-rendering the lot.
+    """
+    if model is None:
+        return settings
+    return dict(settings, model=model)
 
 
 CHAIN_STATE_TOOLTIP = (
@@ -357,8 +390,12 @@ class H3RenderSegmentNode(io.ComfyNode):
 
     @classmethod
     def execute(cls, settings, resume, prompt, seconds, handoff_seconds,
-                seed_override, unload_models_after, chain_state=None, images=None,
-                videos=None, video_audios=None, audios=None) -> io.NodeOutput:
+                seed_override, unload_models_after, chain_state=None, model=None,
+                images=None, videos=None, video_audios=None,
+                audios=None) -> io.NodeOutput:
+        # Before segment_key: model_digest reads settings["model"], so swapping it
+        # here is what makes changing a shot's LoRA invalidate that shot's cache.
+        settings = _with_model(settings, model)
         segment = _segment_from_widgets(prompt, seconds, handoff_seconds, seed_override,
                                         images, videos, video_audios, audios)
         handoff = segment["handoff"]
@@ -551,8 +588,9 @@ class H3RepairSegmentNode(io.ComfyNode):
 
     @classmethod
     def execute(cls, settings, session_name, segment_number, prompt, seconds,
-                handoff_seconds, seed_override, pin_ending, images=None, videos=None,
-                video_audios=None, audios=None) -> io.NodeOutput:
+                handoff_seconds, seed_override, pin_ending, model=None, images=None,
+                videos=None, video_audios=None, audios=None) -> io.NodeOutput:
+        settings = _with_model(settings, model)
         segment = _segment_from_widgets(prompt, seconds, handoff_seconds, seed_override,
                                         images, videos, video_audios, audios)
         sess = session_mod.Session(session_name)

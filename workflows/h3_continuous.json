@@ -1,8 +1,8 @@
 {
   "id": "31ffbb1c-01c7-5e11-bc3e-e8f9fe832bbe",
   "revision": 0,
-  "last_node_id": 27,
-  "last_link_id": 29,
+  "last_node_id": 31,
+  "last_link_id": 37,
   "nodes": [
     {
       "id": 1,
@@ -144,7 +144,11 @@
           "name": "MODEL",
           "type": "MODEL",
           "links": [
-            3
+            3,
+            30,
+            32,
+            34,
+            36
           ]
         }
       ],
@@ -869,6 +873,12 @@
             "name": "unload_models_after"
           },
           "link": null
+        },
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "MODEL",
+          "link": 31
         }
       ],
       "outputs": [
@@ -1177,6 +1187,12 @@
             "name": "unload_models_after"
           },
           "link": null
+        },
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "MODEL",
+          "link": 33
         }
       ],
       "outputs": [
@@ -1351,6 +1367,12 @@
             "name": "unload_models_after"
           },
           "link": null
+        },
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "MODEL",
+          "link": 35
         }
       ],
       "outputs": [
@@ -1760,6 +1782,12 @@
           "shape": 7,
           "type": "AUDIO",
           "link": null
+        },
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "MODEL",
+          "link": 37
         }
       ],
       "outputs": [
@@ -1958,6 +1986,302 @@
       ],
       "color": "#533",
       "bgcolor": "#533"
+    },
+    {
+      "id": 28,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        1560.0,
+        780.4
+      ],
+      "size": [
+        420,
+        106
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 4,
+      "inputs": [
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "MODEL",
+          "link": 30
+        },
+        {
+          "localized_name": "lora_name",
+          "name": "lora_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "lora_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "strength_model",
+          "name": "strength_model",
+          "type": "FLOAT",
+          "widget": {
+            "name": "strength_model"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "MODEL",
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            31
+          ]
+        }
+      ],
+      "title": "Segment 1 LoRA (bypassed - Ctrl+B to enable, then pick your own)",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.34.0",
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "models": [
+          {
+            "name": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/loras/minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+            "directory": "loras"
+          }
+        ]
+      },
+      "widgets_values": [
+        "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+        0.6
+      ],
+      "widgets_values_named": {
+        "lora_name": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+        "strength_model": 0.6
+      },
+      "color": "#535",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 29,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        2040.0,
+        780.4
+      ],
+      "size": [
+        420,
+        106
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 4,
+      "inputs": [
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "MODEL",
+          "link": 32
+        },
+        {
+          "localized_name": "lora_name",
+          "name": "lora_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "lora_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "strength_model",
+          "name": "strength_model",
+          "type": "FLOAT",
+          "widget": {
+            "name": "strength_model"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "MODEL",
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            33
+          ]
+        }
+      ],
+      "title": "Segment 2 LoRA (bypassed - Ctrl+B to enable, then pick your own)",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.34.0",
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "models": [
+          {
+            "name": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/loras/minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+            "directory": "loras"
+          }
+        ]
+      },
+      "widgets_values": [
+        "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+        0.6
+      ],
+      "widgets_values_named": {
+        "lora_name": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+        "strength_model": 0.6
+      },
+      "color": "#535",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 30,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        2521.8,
+        784.7
+      ],
+      "size": [
+        420,
+        106
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 4,
+      "inputs": [
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "MODEL",
+          "link": 34
+        },
+        {
+          "localized_name": "lora_name",
+          "name": "lora_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "lora_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "strength_model",
+          "name": "strength_model",
+          "type": "FLOAT",
+          "widget": {
+            "name": "strength_model"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "MODEL",
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            35
+          ]
+        }
+      ],
+      "title": "Segment 3 LoRA (bypassed - Ctrl+B to enable, then pick your own)",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.34.0",
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "models": [
+          {
+            "name": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/loras/minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+            "directory": "loras"
+          }
+        ]
+      },
+      "widgets_values": [
+        "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+        0.6
+      ],
+      "widgets_values_named": {
+        "lora_name": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+        "strength_model": 0.6
+      },
+      "color": "#535",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 31,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        1080.0,
+        2680.0
+      ],
+      "size": [
+        420,
+        106
+      ],
+      "flags": {},
+      "order": 23,
+      "mode": 4,
+      "inputs": [
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "MODEL",
+          "link": 36
+        },
+        {
+          "localized_name": "lora_name",
+          "name": "lora_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "lora_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "strength_model",
+          "name": "strength_model",
+          "type": "FLOAT",
+          "widget": {
+            "name": "strength_model"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "MODEL",
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            37
+          ]
+        }
+      ],
+      "title": "Repair LoRA (bypassed - Ctrl+B to enable, then pick your own)",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.34.0",
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "models": [
+          {
+            "name": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/loras/minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+            "directory": "loras"
+          }
+        ]
+      },
+      "widgets_values": [
+        "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+        0.6
+      ],
+      "widgets_values_named": {
+        "lora_name": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+        "strength_model": 0.6
+      },
+      "color": "#535",
+      "bgcolor": "#535"
     }
   ],
   "links": [
@@ -2192,6 +2516,70 @@
       23,
       0,
       "H3_SETTINGS"
+    ],
+    [
+      30,
+      3,
+      0,
+      28,
+      0,
+      "MODEL"
+    ],
+    [
+      31,
+      28,
+      0,
+      12,
+      14,
+      "MODEL"
+    ],
+    [
+      32,
+      3,
+      0,
+      29,
+      0,
+      "MODEL"
+    ],
+    [
+      33,
+      29,
+      0,
+      15,
+      14,
+      "MODEL"
+    ],
+    [
+      34,
+      3,
+      0,
+      30,
+      0,
+      "MODEL"
+    ],
+    [
+      35,
+      30,
+      0,
+      16,
+      14,
+      "MODEL"
+    ],
+    [
+      36,
+      3,
+      0,
+      31,
+      0,
+      "MODEL"
+    ],
+    [
+      37,
+      31,
+      0,
+      23,
+      7,
+      "MODEL"
     ]
   ],
   "groups": [
@@ -2214,7 +2602,7 @@
         1080,
         0,
         1908.2267814312809,
-        822.0148468078166
+        940.0
       ],
       "color": "#535",
       "flags": {}
